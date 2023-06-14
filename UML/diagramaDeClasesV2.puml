@@ -1,0 +1,93 @@
+@startuml
+Title Diagrama de clases de Tienda Ropita (Modelo) version 2
+abstract class Prenda {
+precio
+estado
+tipoPrenda
+{abstract} calcularPrecioVenta()
+}
+class Nueva{
+calcularPrecioVenta()
+}
+class Promocion{
+valorDescuento
+calcularPrecioVenta()
+}
+class Liquidacion{
+porcentajeDescuento
+calcularPrecioVenta()
+}
+enum TipoPrenda{
+PANTALON
+SACO
+CAMISA
+ETC
+}
+enum EstadoPrenda{
+NUEVA
+PROMOCION
+LIQUIDACION
+}
+abstract class Venta {
+fecha
+ventaItems
+totalVenta()
+{abstract} recargo()
+}
+note top of Venta
+totalVenta se calcula recorriendo todos los
+items de venta y sumando el precioItem y
+al final se le suma el recargo()
+El método recargo() es la implementación del patron
+"Template Metod"
+end note
+class VentaItem{
+Prenda
+precioVenta
+cantidad
+precioItem()
+}
+note right of VentaItem::precioVenta
+El precio venta es el resultado de
+Prenda.calcularPrecioVenta() de cada prenda
+en el estado de la prenda
+end note
+note right of VentaItem::precioItem
+precioVenta * cantidad
+end note
+class Tienda {
+ventas
+calcularGanancia(fecha)
+}
+note left of Tienda::calcularGanancia
+Recorre todas las ventas del día
+y calcula la ganancia de las ventas
+end note
+class VentaEfectivo{
+recargo()
+}
+note right of VentaEfectivo::recargo
+devuelve 0
+end note
+class VentaTarjeta{
+coeficiente
+cantidadCuotas
+recargo()
+}
+note left of VentaTarjeta::recargo
+devuelve se le aplica
+un recargo según la cantidad de cuotas seleccionadas (cantidad de cuotas * un
+coeficiente
+fijo + 0.01 del valor de cada prenda).”
+end note
+Prenda <|-- Nueva
+Prenda <|-- Promocion
+Prenda <|-- Liquidacion
+Prenda --left TipoPrenda
+Prenda --right EstadoPrenda
+Venta --right VentaItem
+VentaItem -- Prenda
+Venta <|-- VentaEfectivo
+Venta <|-- VentaTarjeta
+Tienda --right Venta
+@enduml

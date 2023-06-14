@@ -1,0 +1,108 @@
+@startuml
+Title Diagrama de clases de Tienda Ropita (Modelo) version 3
+abstract class Prenda {
+precio
+estado
+estadoPrendaStrategy
+tipoPrenda
+calcularPrecioVenta()
+}
+note right of Prenda::calcularPrecioVenta
+Dependiendo del estado se instancia la estrategia
+que corresponda y esa estrategia ejecuta
+el método calcularPrecioVenta()
+end note
+interface EstadoPrendaStrategy{
+calcularPrecioVenta()
+}
+class Nueva{
+calcularPrecioVenta()
+}
+class Promocion{
+valorDescuento
+calcularPrecioVenta()
+}
+class Liquidacion{
+porcentajeDescuento
+calcularPrecioVenta()
+}
+enum TipoPrenda{
+PANTALON
+SACO
+CAMISA
+ETC
+}
+enum EstadoPrenda{
+NUEVA
+PROMOCION
+LIQUIDACION
+}
+abstract class Venta {
+fecha
+ventaItems
+totalVenta()
+{abstract} recargo()
+}
+note top of Venta
+totalVenta se calcula recorriendo todos los
+items de venta y sumando el precioItem y
+al final se le suma el recargo()
+El método recargo() es la implementación del patron
+"Template Metod"
+end note
+class VentaItem{
+Prenda
+precioVenta
+cantidad
+precioItem()
+}
+note right of VentaItem::precioVenta
+El precio venta es el resultado de
+Prenda.calcularPrecioVenta() de cada prenda
+en el estado de la prenda
+end note
+note right of VentaItem::precioItem
+precioVenta * cantidad
+end note
+class Tienda {
+ventas
+calcularGanancia(fecha)
+}
+note left of Tienda::calcularGanancia
+Recorre todas las ventas del día
+y calcula la ganancia de las ventas
+end note
+class VentaEfectivo{
+recargo()
+}
+note right of VentaEfectivo::recargo
+devuelve 0
+end note
+class VentaTarjeta{
+coeficiente
+cantidadCuotas
+recargo()
+}
+note left of VentaTarjeta::recargo
+devuelve se le aplica
+un recargo según la cantidad de cuotas seleccionadas (cantidad de cuotas * un
+coeficiente
+fijo + 0.01 del valor de cada prenda).”
+end note
+class Cliente {
+nombre
+apellido
+}
+EstadoPrendaStrategy <|-- Nueva
+EstadoPrendaStrategy <|-- Promocion
+EstadoPrendaStrategy <|-- Liquidacion
+Prenda -- EstadoPrendaStrategy
+Prenda --left TipoPrenda
+Prenda -- EstadoPrenda
+Venta --right VentaItem
+Venta --left Cliente
+VentaItem -- Prenda
+Venta <|-- VentaEfectivo
+Venta <|-- VentaTarjeta
+Tienda -- Venta
+@enduml

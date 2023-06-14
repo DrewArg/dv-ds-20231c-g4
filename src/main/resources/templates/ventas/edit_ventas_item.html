@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>Edita un Item de Venta</title>
+</head>
+<body>
+<div align="center">
+  <h1>Edita nuevo Item de Venta</h1>
+  <br />
+  <table>
+    <tbody>
+    <tr>
+
+      <!-- <th><a href="/tienda/ventas/show_ventas">Volver al detalle de la
+      venta</a></th> -->
+
+      <th>&nbsp;</th>
+      <th><a href="/tienda/ventas/list">Volver al listado ventas</a></th>
+    </tr>
+    </tbody>
+  </table>
+  <br />
+  <form action="#" th:action="@{/tienda/ventas/item/update}"
+        th:object="${item}" method="post">
+    <table border="0" cellpadding="10">
+      <tr>
+        <td>Item:</td>
+        <td><input type="text" th:field="*{id}" readonly="readonly"/></td>
+      </tr>
+      <tr>
+        <td>Cantidad:</td>
+        <td><input type="text" th:field="*{cantidad}" /></td>
+      </tr>
+      <tr>
+        <td colspan="2"><button> <a th:href="@{'/tienda/ventas/show/' +
+
+*{venta.id}}">Volver</a> </button></td>
+
+        <td colspan="2"><button type="submit">Grabar</button></td>
+      </tr>
+    </table>
+  </form>
+</div>
+</body>
+</html>

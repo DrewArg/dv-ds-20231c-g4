@@ -12,11 +12,11 @@ import ar.edu.davinci.dvds20231cg4.domain.TipoPrenda;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import ar.edu.davinci.dvds20231cg4.repository.PrendaRepository;
 @Service
-public class PrendaServiceImpl implements PrendaService{
-    private final Logger LOGGER = LoggerFactory.getLogger(PrendaServiceImpl.class);
+public class PrendaServiceImplementation implements PrendaService{
+    private final Logger LOGGER = LoggerFactory.getLogger(PrendaServiceImplementation.class);
     private final PrendaRepository repository;
     @Autowired
-    public PrendaServiceImpl(final PrendaRepository repository) {
+    public PrendaServiceImplementation(final PrendaRepository repository) {
         this.repository = repository;
     }
     @Override

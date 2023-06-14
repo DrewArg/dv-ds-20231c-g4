@@ -15,6 +15,11 @@
 	<description>Escuela Da Vinci - Diseño de Sistemas - Trabajo Práctico - Tienda Ropita</description>
 	<properties>
 		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
+		<org.projectlombok.version>1.18.26</org.projectlombok.version>
+		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -74,6 +79,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+		<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>${org.mapstruct.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -89,6 +99,50 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.8.1</version>
+			<configuration>
+			<source>17</source>
+			<target>17</target>
+			<annotationProcessorPaths>
+				<path>
+					<groupId>org.mapstruct</groupId>
+					<artifactId>mapstruct-processor</artifactId>
+					<version>${org.mapstruct.version}</version>
+				</path>
+				<path>
+					<groupId>org.projectlombok</groupId>
+					<artifactId>lombok</artifactId>
+					<version>${org.projectlombok.version}</version>
+				</path>
+				<path>
+					<groupId>org.projectlombok</groupId>
+
+					<artifactId>lombok-mapstruct-binding</artifactId>
+					<version>${lombok-mapstruct-binding.version}</version>
+
+				</path>
+			</annotationProcessorPaths>
+			<!-- due to problem in maven-compiler-plugin, for verbose mode
+
+            add showWarnings -->
+
+			<showWarnings>true</showWarnings>
+			<compilerArgs>
+			<arg>
+				-Amapstruct.suppressGeneratorTimestamp=true
+			</arg>
+			<arg>
+			-Amapstruct.suppressGeneratorVersionInfoComment=true
+			</arg>
+				<arg>
+					-Amapstruct.verbose=true
+				</arg>
+			</compilerArgs>
+			</configuration>
 			</plugin>
 		</plugins>
 	</build>

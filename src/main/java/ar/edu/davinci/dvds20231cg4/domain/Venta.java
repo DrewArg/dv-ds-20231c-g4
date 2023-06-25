@@ -60,34 +60,41 @@ public abstract class Venta implements Serializable{
             orphanRemoval = true)
     @JsonManagedReference
     private List<Item> items;
+    
     // Defnición del método del Template Method
     public abstract Double conRecargo(Double importeBase);
+    
     public String getRazonSocial() {
         return cliente.getRazonSocial();
     }
+    
     public BigDecimal importeBruto() {
         Double suma = items.stream()
                 .collect(Collectors.summingDouble(item -> item.importe().doubleValue()));
 
         return new BigDecimal(suma).setScale(2, RoundingMode.UP);
     }
+    
     // Implementación del Template Method
     public BigDecimal importeFinal() {
         Double suma = items.stream()
                 .collect(Collectors.summingDouble(item -> conRecargo(item.importe().doubleValue())));
-
         return new BigDecimal(suma).setScale(2, RoundingMode.UP);
     }
+    
     public String getImporteFinalStr() {
         return importeFinal().toString();
     }
+    
     public boolean esDeFecha(Date fecha) {
         return (this.fecha.compareTo(fecha) == 0) ? true : false;
     }
+    
     public void addItem(Item item) {
         if (this.items == null) {
             this.items = new ArrayList<Item>();
-        }
-        this.items.add(item);
+        }    
+    this.items.add(item);
     }
+    
 }

@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 
 // Configuración inical de JPA de una entidad
 @Entity
-@Table(name="prendas")
-// Configuración de Lombok
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Builder
-public class Prenda implements Serializable {
+//@Table(name="prendas")
+//// Configuración de Lombok
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Data
+//@Builder
+public abstract class Prenda implements Serializable {
     /**
      *
      */
@@ -38,12 +38,15 @@ public class Prenda implements Serializable {
     private Long id;
     @Column(name = "prd_descripcion", nullable = false)
     private String descripcion;
-   @Column(name = "prd_tipo_prenda")
-   @Enumerated(EnumType.STRING)
+    @Column(name = "prd_tipo_prenda")
+    @Enumerated(EnumType.STRING)
     private TipoPrenda tipo;
-  @Column(name = "prd_precio_base")
-  private BigDecimal precioBase;
-   public BigDecimal getPrecioFinal() {
+    @Column(name = "prd_precio_base")
+    private BigDecimal precioBase;
+    @Column(name="prd_estado_prenda")
+    @Enumerated(EnumType.STRING)
+    private EstadoPrenda estadoPrenda;
+    public BigDecimal getPrecioFinal() {
        return precioBase;
    }
 }

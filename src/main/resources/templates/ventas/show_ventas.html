@@ -73,7 +73,7 @@ color-dodge">Ventas</th>
 
               <a style="color: white"
 
-                 th:href="@{'/tienda/ventas/' + ${venta.id} +'/item/new'}">Agregar Item</a>
+                 th:href="@{'/tienda/ventas/' + ${venta.id} +'/pedidoVentaItem/new'}">Agregar Item</a>
 
             </button>
           </td>
@@ -93,35 +93,35 @@ color-dodge">Ventas</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item :
+            <tr th:each="pedidoVentaItem :
 
-${venta.items}">
-
-              <td
-
-                      th:text="${item.id}">Item ID</td>
+${venta.pedidoVentaItems}">
 
               <td
 
-                      th:text="${item.cantidad}">Cantidad</td>
+                      th:text="${pedidoVentaItem.id}">Item ID</td>
 
               <td
 
-                      th:text="${item.prenda.descripcion}">Prenda</td>
+                      th:text="${pedidoVentaItem.cantidad}">Cantidad</td>
 
               <td
 
-                      th:text="${item.importe}" class="number">Importe</td>
+                      th:text="${pedidoVentaItem.prenda.descripcion}">Prenda</td>
+
+              <td
+
+                      th:text="${pedidoVentaItem.importe}" class="number">Importe</td>
 
               <td>
                 <a
 
-                        th:href="@{'/tienda/item/edit/' + ${item.id}}">Editar</a>
+                        th:href="@{'/tienda/pedidoVentaItem/edit/' + ${pedidoVentaItem.id}}">Editar</a>
 
                 &nbsp;&nbsp;&nbsp;
                 <a
 
-                        th:href="@{'/tienda/item/delete/' + ${item.id}}">Borrar</a>
+                        th:href="@{'/tienda/pedidoVentaItem/delete/' + ${pedidoVentaItem.id}}">Borrar</a>
 
               </td>
             </tr>

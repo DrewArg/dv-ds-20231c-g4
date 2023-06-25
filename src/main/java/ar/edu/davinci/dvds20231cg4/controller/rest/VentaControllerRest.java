@@ -1,14 +1,11 @@
 package ar.edu.davinci.dvds20231cg4.controller.rest;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.function.Function;
+
+import ar.edu.davinci.dvds20231cg4.domain.PedidoVentaItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +22,6 @@ import ar.edu.davinci.dvds20231cg4.controller.request.ItemUpdateRequest;
 import ar.edu.davinci.dvds20231cg4.controller.request.VentaEfectivoRequest;
 import ar.edu.davinci.dvds20231cg4.controller.request.VentaTarjetaRequest;
 import ar.edu.davinci.dvds20231cg4.controller.response.VentaResponse;
-import ar.edu.davinci.dvds20231cg4.domain.Item;
 import ar.edu.davinci.dvds20231cg4.domain.Venta;
 import ar.edu.davinci.dvds20231cg4.domain.VentaEfectivo;
 import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
@@ -205,17 +201,17 @@ public class VentaControllerRest extends TiendaAppRest {
 
                                                     @RequestBody ItemInsertRequest datosItem) {
         VentaResponse ventaResponse = null;
-        Item item = null;
+        PedidoVentaItem pedidoVentaItem = null;
         try {
-            item = itemMapper.matToItem(datosItem);
-//item = mapper.map(datosItem, Item.class);
+            pedidoVentaItem = itemMapper.matToItem(datosItem);
+//pedidoVentaItem = mapper.map(datosItem, PedidoVentaItem.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
         Venta venta = null;
         try {
-            venta = ventaService.addItem(ventaId, item);
+            venta = ventaService.addItem(ventaId, pedidoVentaItem);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -256,10 +252,10 @@ public class VentaControllerRest extends TiendaAppRest {
                                                     @PathVariable("itemId") long itemId,
                                                     @RequestBody ItemUpdateRequest datosItem) {
         VentaResponse ventaResponse = null;
-        Item item = null;
+        PedidoVentaItem pedidoVentaItem = null;
         try {
-            item = itemMapper.matToItem(datosItem);
-//item = mapper.map(datosItem, Item.class);
+            pedidoVentaItem = itemMapper.matToItem(datosItem);
+//pedidoVentaItem = mapper.map(datosItem, PedidoVentaItem.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
 //e.printStackTrace();
@@ -267,7 +263,7 @@ public class VentaControllerRest extends TiendaAppRest {
         }
         Venta venta = null;
         try {
-            venta = ventaService.updateItem(ventaId, itemId, item);
+            venta = ventaService.updateItem(ventaId, itemId, pedidoVentaItem);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
 //e.printStackTrace();

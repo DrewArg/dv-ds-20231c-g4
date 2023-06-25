@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import ar.edu.davinci.dvds20231cg4.domain.PedidoVentaItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -30,13 +30,11 @@ import ar.edu.davinci.dvds20231cg4.controller.response.VentaTarjetaResponse;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaEfectivoCreateRequest;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaItemCreateRequest;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaTarjetaCreateRequest;
-import ar.edu.davinci.dvds20231cg4.domain.Item;
 import ar.edu.davinci.dvds20231cg4.domain.Venta;
 import ar.edu.davinci.dvds20231cg4.domain.VentaEfectivo;
 import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import ar.edu.davinci.dvds20231cg4.mapper.ItemMapper;
-import ar.edu.davinci.dvds20231cg4.mapper.PrendaMapper;
 import ar.edu.davinci.dvds20231cg4.mapper.VentaMapper;
 import ar.edu.davinci.dvds20231cg4.service.ItemService;
 import ar.edu.davinci.dvds20231cg4.service.VentaService;
@@ -156,14 +154,14 @@ public class VentaController extends TiendaApp{
     public String saveVentaItem(@ModelAttribute("item") VentaItemCreateRequest
                                         datosVentaItem) {
 
-        LOGGER.info("POST - saveVentaItem - ventas/item/save");
+        LOGGER.info("POST - saveVentaItem - ventas/pedidoVentaItem/save");
         LOGGER.info("datosVentaItem: " + datosVentaItem.toString());
-        Item item = itemMapper.matToItem(datosVentaItem);
-//Item item = mapper.map(datosVentaItem, Item.class);
+        PedidoVentaItem pedidoVentaItem = itemMapper.matToItem(datosVentaItem);
+//PedidoVentaItem pedidoVentaItem = mapper.map(datosVentaItem, PedidoVentaItem.class);
 // Grabar el nuevo Venta
         Venta venta = null;
         try {
-            venta = ventaService.addItem(datosVentaItem.getVentaId(), item);
+            venta = ventaService.addItem(datosVentaItem.getVentaId(), pedidoVentaItem);
         } catch (Exception e) {
             e.printStackTrace();
         }

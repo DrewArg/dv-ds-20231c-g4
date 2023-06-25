@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+
+import ar.edu.davinci.dvds20231cg4.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ar.edu.davinci.dvds20231cg4.domain.Cliente;
-import ar.edu.davinci.dvds20231cg4.domain.Item;
-import ar.edu.davinci.dvds20231cg4.domain.Prenda;
-import ar.edu.davinci.dvds20231cg4.domain.Venta;
-import ar.edu.davinci.dvds20231cg4.domain.VentaEfectivo;
-import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
+import ar.edu.davinci.dvds20231cg4.domain.PedidoVentaItem;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import ar.edu.davinci.dvds20231cg4.repository.VentaEfectivoRepository;
 import ar.edu.davinci.dvds20231cg4.repository.VentaRepository;
@@ -51,23 +48,23 @@ public class VentaServiceImplementation implements VentaService{
         } else {
             throw new BusinessException("El cliente es obligatorio");
         }
-        List<Item> items = new ArrayList<Item>();
-        if (venta.getItems() != null) {
-            items = getItems(venta.getItems());
+        List<PedidoVentaItem> pedidoVentaItems = new ArrayList<PedidoVentaItem>();
+        if (venta.getPedidoVentaItems() != null) {
+            pedidoVentaItems = getItems(venta.getPedidoVentaItems());
         }
         venta = VentaEfectivo.builder()
                 .cliente(cliente)
                 .fecha(Calendar.getInstance().getTime())
-                .items(items)
+                .pedidoVentaItems(pedidoVentaItems)
                 .build();
 
         return ventaEfectivoRepository.save(venta);
     }
     @Override
-    public VentaEfectivo save(VentaEfectivo ventaEfectivo, Item item) throws
+    public VentaEfectivo save(VentaEfectivo ventaEfectivo, PedidoVentaItem pedidoVentaItem) throws
             BusinessException {
 
-        ventaEfectivo.addItem(item);
+        ventaEfectivo.addItem(pedidoVentaItem);
         return ventaEfectivoRepository.save(ventaEfectivo);
     }
     @Override
@@ -78,14 +75,14 @@ public class VentaServiceImplementation implements VentaService{
         } else {
             throw new BusinessException("El cliente es obligatorio");
         }
-        List<Item> items = new ArrayList<Item>();
-        if (venta.getItems() != null) {
-            items = getItems(venta.getItems());
+        List<PedidoVentaItem> pedidoVentaItems = new ArrayList<PedidoVentaItem>();
+        if (venta.getPedidoVentaItems() != null) {
+            pedidoVentaItems = getItems(venta.getPedidoVentaItems());
         }
         venta = VentaTarjeta.builder()
                 .cliente(cliente)
                 .fecha(Calendar.getInstance().getTime())
-                .items(items)
+                .pedidoVentaItems(pedidoVentaItems)
                 .cantidadCuotas(venta.getCantidadCuotas())
                 .coeficienteTarjeta(new BigDecimal(0.01D))
                 .build();
@@ -93,10 +90,10 @@ public class VentaServiceImplementation implements VentaService{
         return ventaTarjetaRepository.save(venta);
     }
     @Override
-    public VentaTarjeta save(VentaTarjeta ventaTarjeta, Item item) throws
+    public VentaTarjeta save(VentaTarjeta ventaTarjeta, PedidoVentaItem pedidoVentaItem) throws
             BusinessException {
 
-        ventaTarjeta.addItem(item);
+        ventaTarjeta.addItem(pedidoVentaItem);
         return ventaTarjetaRepository.save(ventaTarjeta);
     }
     @Override
@@ -135,36 +132,36 @@ public class VentaServiceImplementation implements VentaService{
         return ventaRepository.count();
     }
     @Override
-    public Venta addItem(Long ventaId, Item item) throws BusinessException {
+    public Venta addItem(Long ventaId, PedidoVentaItem pedidoVentaItem) throws BusinessException {
         Venta venta = getVenta(ventaId);
-        Prenda prenda = getPrenda(item);
-        Item newItem = Item.builder()
+        Prenda prenda = getPrenda(pedidoVentaItem);
+        PedidoVentaItem newPedidoVentaItem = PedidoVentaItem.builder()
 
-                .cantidad(item.getCantidad())
+                .cantidad(pedidoVentaItem.getCantidad())
                 .prenda(prenda)
                 .venta(venta)
                 .build();
 
-        newItem = itemService.save(newItem);
-        venta.addItem(newItem);
+        newPedidoVentaItem = itemService.save(newPedidoVentaItem);
+        venta.addItem(newPedidoVentaItem);
         return venta;
     }
     @Override
-    public Venta updateItem(Long ventaId, Long itemId, Item item) throws
+    public Venta updateItem(Long ventaId, Long itemId, PedidoVentaItem pedidoVentaItem) throws
             BusinessException {
 
         Venta venta = getVenta(ventaId);
-        Item actualItem = getItem(itemId);
-        actualItem.setCantidad(item.getCantidad());
-        actualItem = itemService.update(actualItem);
+        PedidoVentaItem actualPedidoVentaItem = getItem(itemId);
+        actualPedidoVentaItem.setCantidad(pedidoVentaItem.getCantidad());
+        actualPedidoVentaItem = itemService.update(actualPedidoVentaItem);
         return venta;
     }
     @Override
     public Venta deleteItem(Long ventaId, Long itemId) throws BusinessException {
         Venta venta = getVenta(ventaId);
-        Item actualItem = getItem(itemId);
+        PedidoVentaItem actualPedidoVentaItem = getItem(itemId);
         itemService.delete(itemId);
-        venta.getItems().remove(actualItem);
+        venta.getPedidoVentaItems().remove(actualPedidoVentaItem);
         ventaRepository.save(venta);
         return venta;
     }
@@ -176,27 +173,27 @@ public class VentaServiceImplementation implements VentaService{
             throw new BusinessException("Venta no encotrado para el id: " + ventaId);
         }
     }
-    private List<Item> getItems(List<Item> requestItems) throws BusinessException {
-        List<Item> items = new ArrayList<Item>();
-        for (Item requestItem : requestItems) {
-            Prenda prenda = getPrenda(requestItem);
-            Item item = Item.builder()
+    private List<PedidoVentaItem> getItems(List<PedidoVentaItem> requestPedidoVentaItems) throws BusinessException {
+        List<PedidoVentaItem> pedidoVentaItems = new ArrayList<PedidoVentaItem>();
+        for (PedidoVentaItem requestPedidoVentaItem : requestPedidoVentaItems) {
+            Prenda prenda = getPrenda(requestPedidoVentaItem);
+            PedidoVentaItem pedidoVentaItem = PedidoVentaItem.builder()
 
-                    .cantidad(requestItem.getCantidad())
+                    .cantidad(requestPedidoVentaItem.getCantidad())
                     .prenda(prenda)
                     .build();
-            items.add(item);
+            pedidoVentaItems.add(pedidoVentaItem);
         }
-        return items;
+        return pedidoVentaItems;
     }
-    private Prenda getPrenda(Item requestItem) throws BusinessException {
-        if (requestItem.getPrenda().getId() != null) {
-            return prendaService.findById(requestItem.getPrenda().getId());
+    private Prenda getPrenda(PedidoVentaItem requestPedidoVentaItem) throws BusinessException {
+        if (requestPedidoVentaItem.getPrenda().getId() != null) {
+            return prendaService.findById(requestPedidoVentaItem.getPrenda().getId());
         } else {
             throw new BusinessException("La Prenda es obligatoria");
         }
     }
-    private Item getItem(Long id) throws BusinessException {
+    private PedidoVentaItem getItem(Long id) throws BusinessException {
         return itemService.findById(id);
     }
     private Cliente getCliente(Long id) throws BusinessException {

@@ -5,7 +5,9 @@ import org.springframework.data.domain.Pageable;
 import ar.edu.davinci.dvds20231cg4.domain.Prenda;
 import ar.edu.davinci.dvds20231cg4.domain.TipoPrenda;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface PrendaService {
     Prenda save(final Prenda prenda) throws BusinessException;
     Prenda update(final Prenda prenda) throws BusinessException;

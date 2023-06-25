@@ -34,18 +34,18 @@ public class PrendaController extends TiendaApp{
         LOGGER.info("prendas.size: " + prendas.getNumberOfElements());
         return "prendas/list_prendas";
     }
-    @GetMapping(path = "/prendas/new")
-    public String showNewPrendaPage(Model model) {
-        LOGGER.info("GET - showNewPrendaPage - /prendas/new");
-        Prenda prenda = new Prenda();
-        model.addAttribute("prenda", prenda);
-        model.addAttribute("tipoPrendas", prendaService.getTipoPrendas());
-        LOGGER.info("prendas: " + prenda.toString());
-        return "prendas/new_prendas";
-    }
-    @PostMapping(value = "/prendas/save")
+//    @GetMapping(path = "/prendas/new")
+//    public String showNewPrendaPage(Model model) {
+//        LOGGER.info("GET - showNewPrendaPage - /prendas/new");
+//        Prenda prenda = new Prenda();
+//        model.addAttribute("prenda", prenda);
+//        model.addAttribute("tipoPrendas", prendaService.getTipoPrendas());
+//        LOGGER.info("prendas: " + prenda.toString());
+//        return "prendas/new_prendas";
+//    }
+    @PostMapping(value = "/prendas/new")
     public String savePrenda(@ModelAttribute("prenda") Prenda prenda) {
-        LOGGER.info("POST - savePrenda - /prendas/save");
+        LOGGER.info("POST - savePrenda - /prendas/new");
         LOGGER.info("prenda: " + prenda.toString());
         try {
             if (prenda.getId() == null) {

@@ -1,8 +1,7 @@
 package ar.edu.davinci.dvds20231cg4.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
@@ -27,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 
-public class Item implements Serializable{
+public class PedidoVentaItem implements Serializable{
     private static final long serialVersionUID = 5324396181568770929L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")

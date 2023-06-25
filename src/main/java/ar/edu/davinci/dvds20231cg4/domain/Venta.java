@@ -25,7 +25,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -59,7 +58,7 @@ public abstract class Venta implements Serializable{
     @OneToMany(mappedBy="venta", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER,
             orphanRemoval = true)
     @JsonManagedReference
-    private List<Item> items;
+    private List<PedidoVentaItem> pedidoVentaItems;
     
     // Defnición del método del Template Method
     public abstract Double conRecargo(Double importeBase);
@@ -69,7 +68,7 @@ public abstract class Venta implements Serializable{
     }
     
     public BigDecimal importeBruto() {
-        Double suma = items.stream()
+        Double suma = pedidoVentaItems.stream()
                 .collect(Collectors.summingDouble(item -> item.importe().doubleValue()));
 
         return new BigDecimal(suma).setScale(2, RoundingMode.UP);
@@ -77,7 +76,7 @@ public abstract class Venta implements Serializable{
     
     // Implementación del Template Method
     public BigDecimal importeFinal() {
-        Double suma = items.stream()
+        Double suma = pedidoVentaItems.stream()
                 .collect(Collectors.summingDouble(item -> conRecargo(item.importe().doubleValue())));
         return new BigDecimal(suma).setScale(2, RoundingMode.UP);
     }
@@ -90,11 +89,11 @@ public abstract class Venta implements Serializable{
         return (this.fecha.compareTo(fecha) == 0) ? true : false;
     }
     
-    public void addItem(Item item) {
-        if (this.items == null) {
-            this.items = new ArrayList<Item>();
+    public void addItem(PedidoVentaItem pedidoVentaItem) {
+        if (this.pedidoVentaItems == null) {
+            this.pedidoVentaItems = new ArrayList<PedidoVentaItem>();
         }    
-    this.items.add(item);
+    this.pedidoVentaItems.add(pedidoVentaItem);
     }
     
 }

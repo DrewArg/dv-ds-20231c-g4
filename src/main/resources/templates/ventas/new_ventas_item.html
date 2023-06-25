@@ -22,8 +22,8 @@
     </tbody>
   </table>
   <br />
-  <form action="#" th:action="@{/tienda/ventas/item/save}"
-        th:object="${item}" method="post">
+  <form action="#" th:action="@{/tienda/ventas/pedidoVentaItem/save}"
+        th:object="${pedidoVentaItem}" method="post">
     <table border="0" cellpadding="10">
       <tr>
         <td>Venta:</td>
@@ -43,7 +43,7 @@
       <tr>
         <td colspan="2"><button> <a th:href="@{'/tienda/ventas/show/' +
 
-${item.ventaId}}">Volver</a> </button></td>
+${pedidoVentaItem.ventaId}}">Volver</a> </button></td>
 
         <td colspan="2"><button type="submit">Grabar</button></td>
       </tr>

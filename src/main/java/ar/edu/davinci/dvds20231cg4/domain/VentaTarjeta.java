@@ -41,7 +41,7 @@ public class VentaTarjeta extends Venta implements Serializable{
                         .multiply(new BigDecimal(cantidadCuotas)))
                 .multiply(new
 
-                        BigDecimal(this.getItems().size()));
+                        BigDecimal(this.getPedidoVentaItems().size()));
     }
     @Override
     public Double conRecargo(Double importeBase) {

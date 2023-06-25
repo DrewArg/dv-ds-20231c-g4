@@ -120,7 +120,7 @@ public List<Prenda> getList(){
  * @param datosPrenda son los datos para una nueva prenda
  * @return un prenda nueva
  */
-    @PostMapping(path = "/prendas")
+    @PostMapping(path = "/prendas/new")
     public ResponseEntity<PrendaResponse> createPrenda(@RequestBody PrendaInsertRequest
                                                                datosPrenda) {
 

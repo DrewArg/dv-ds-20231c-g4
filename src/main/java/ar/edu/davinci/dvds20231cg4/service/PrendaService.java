@@ -20,7 +20,7 @@ public interface PrendaService {
 
     void delete(final Long id);
 
-    Prenda findById(final Long id) throws BusinessException;
+    Prenda findById(Long id) throws BusinessException;
 
     List<Prenda> list();
 

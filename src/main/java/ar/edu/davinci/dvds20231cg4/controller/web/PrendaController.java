@@ -1,4 +1,7 @@
 package ar.edu.davinci.dvds20231cg4.controller.web;
+import ar.edu.davinci.dvds20231cg4.domain.PrendaLiquidacion;
+import ar.edu.davinci.dvds20231cg4.domain.PrendaNueva;
+import ar.edu.davinci.dvds20231cg4.domain.PrendaPromocion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,31 +37,62 @@ public class PrendaController extends TiendaApp{
         LOGGER.info("prendas.size: " + prendas.getNumberOfElements());
         return "prendas/list_prendas";
     }
-//    @GetMapping(path = "/prendas/new")
-//    public String showNewPrendaPage(Model model) {
-//        LOGGER.info("GET - showNewPrendaPage - /prendas/new");
-//        Prenda prenda = new Prenda();
-//        model.addAttribute("prenda", prenda);
-//        model.addAttribute("tipoPrendas", prendaService.getTipoPrendas());
-//        LOGGER.info("prendas: " + prenda.toString());
-//        return "prendas/new_prendas";
-//    }
-//    @PostMapping(value = "/prendas/new")
-//    public String savePrenda(@ModelAttribute("prenda") Prenda prenda) {
-//        LOGGER.info("POST - savePrenda - /prendas/new");
-//        LOGGER.info("prenda: " + prenda.toString());
-//        try {
-//            if (prenda.getId() == null) {
-//                prendaService.save(prenda);
-//            } else {
-//                prendaService.update(prenda);
-//            }
-//        } catch (BusinessException e) {
-//// TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        return "redirect:/tienda/prendas/list";
-//    }
+    @GetMapping(path = "/prendas/new")
+    public String showNewPrendaPage(Model model) {
+        LOGGER.info("GET - showNewPrendaPage - /prendas/new");
+        PrendaNueva prendaNueva = new PrendaNueva();
+        model.addAttribute("prenda", prendaNueva);
+        model.addAttribute("tipoPrendas", prendaService.getTipoPrendas());
+        model.addAttribute("tipoEstados", prendaService.getEstadoPrendas());
+        LOGGER.info("prendas: " + prendaNueva.toString());
+        return "prendas/save_prendas";
+    }
+    @PostMapping(value = "/prendas/new/nueva")
+    public String savePrenda(@ModelAttribute("prenda") PrendaNueva prendaNueva) {
+        LOGGER.info("POST - savePrenda - /prendas/new");
+        LOGGER.info("prenda: " + prendaNueva.toString());
+        try {
+            if (prendaNueva.getId() == null) {
+                prendaService.save(prendaNueva);
+            } else {
+                prendaService.update(prendaNueva);
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/tienda/prendas/list";
+    }
+    @PostMapping(value = "/prendas/new/promo")
+    public String savePrenda(@ModelAttribute("prenda") PrendaPromocion prendaPromocion) {
+        LOGGER.info("POST - savePrenda - /prendas/new");
+        LOGGER.info("prenda: " + prendaPromocion.toString());
+        try {
+            if (prendaPromocion.getId() == null) {
+                prendaService.save(prendaPromocion);
+            } else {
+                prendaService.update(prendaPromocion);
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/tienda/prendas/list";
+    }
+
+    @PostMapping(value = "/prendas/new/liqui")
+    public String savePrenda(@ModelAttribute("prenda") PrendaLiquidacion prendaLiquidacion) {
+        LOGGER.info("POST - savePrenda - /prendas/new");
+        LOGGER.info("prenda: " + prendaLiquidacion.toString());
+        try {
+            if (prendaLiquidacion.getId() == null) {
+                prendaService.save(prendaLiquidacion);
+            } else {
+                prendaService.update(prendaLiquidacion);
+            }
+        } catch (BusinessException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/tienda/prendas/list";
+    }
     @RequestMapping(value = "/prendas/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showEditPrendaPage(@PathVariable(name = "id") Long prendaId) {
         LOGGER.info("GET - showEditPrendaPage - /prendas/edit/{id}");

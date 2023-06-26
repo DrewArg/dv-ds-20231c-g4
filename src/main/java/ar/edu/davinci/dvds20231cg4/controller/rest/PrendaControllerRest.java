@@ -1,9 +1,7 @@
 package ar.edu.davinci.dvds20231cg4.controller.rest;
 
 import ar.edu.davinci.dvds20231cg4.controller.TiendaAppRest;
-import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertLiquidacionRequest;
-import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertNuevaRequest;
-import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertPromocionRequest;
+import ar.edu.davinci.dvds20231cg4.controller.request.*;
 import ar.edu.davinci.dvds20231cg4.controller.response.PrendaLiquidacionResponse;
 import ar.edu.davinci.dvds20231cg4.controller.response.PrendaNuevaResponse;
 import ar.edu.davinci.dvds20231cg4.controller.response.PrendaPromocionResponse;
@@ -25,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class PrendaControllerRest extends TiendaAppRest {
@@ -179,69 +178,165 @@ public class PrendaControllerRest extends TiendaAppRest {
         }
         return new ResponseEntity<>(prendaPromocionResponse, HttpStatus.CREATED);
     }
-//
-//    /**
-//     * Modificar los datos de un prenda
-//     *
-//     * @param id identificador de una prenda
-//     * @param datosPrenda datos a modificar de la prenda
-//     * @return los datos de una prenda modificada
-//     */
-//    @PutMapping("/prendas/{id}")
-//    public ResponseEntity<Object> updatePrenda(@PathVariable("id") long id,
-//
-//                                               @RequestBody PrendaUpdateRequest datosPrenda) {
-//        Prenda prendaModifar = null;
-//        Prenda prendaNuevo = null;
-//        PrendaResponse prendaResponse = null;
-//// Convertir PrendaInsertRequest en Prenda
-//        try {
-//            //prendaNuevo = mapper.map(datosPrenda, Prenda.class);
-//            prendaNuevo = prendaMapper.mapToPrenda(datosPrenda);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//        }
-//        try {
-//            prendaModifar = prendaService.findById(id);
-//        } catch (BusinessException e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//        if (Objects.nonNull(prendaModifar)) {
-//            prendaModifar.setDescripcion(prendaNuevo.getDescripcion());
-//            prendaModifar.setTipo(prendaNuevo.getTipo());
-//            prendaModifar.setPrecioBase(prendaNuevo.getPrecioBase());
-//// Grabar el Prenda Nuevo en Prenda a Modificar
-//            try {
-//                prendaModifar = prendaService.update(prendaModifar);
-//            } catch (BusinessException e) {
-//                LOGGER.error(e.getMessage());
-//                e.printStackTrace();
-//                return new ResponseEntity<>(e.getMessage(),
-//
-//                        HttpStatus.EXPECTATION_FAILED);
-//
-//            } catch (Exception e) {
-//                LOGGER.error(e.getMessage());
-//                e.printStackTrace();
-//                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-//            }
-//        } else {
-//            LOGGER.error("Prenda a modificar es null");
-//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//        }
-//// Convertir Prenda en PrendaResponse
-//        try {
-////prendaResponse = mapper.map(prendaModifar, PrendaResponse.class);
-//            prendaResponse = prendaMapper.mapToPrendaResponse(prendaModifar);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
-//    }
+
+       @PutMapping("/prendas/new/{id}")
+    public ResponseEntity<Object> updatePrendaNueva(@PathVariable("id") long id,
+
+                                               @RequestBody PrendaNuevaUpdateRequest datosPrenda) {
+        PrendaNueva updatePrenda = null;
+        PrendaNueva newPrenda = null;
+        PrendaNuevaResponse prendaResponse = null;
+        try {
+            newPrenda = prendaMapper.mapToPrendaNueva(datosPrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            updatePrenda = (PrendaNueva) prendaService.findById(id);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        if (Objects.nonNull(updatePrenda)) {
+            updatePrenda.setDescripcion(newPrenda.getDescripcion());
+            updatePrenda.setTipo(newPrenda.getTipo());
+            updatePrenda.setPrecioBase(newPrenda.getPrecioBase());
+
+            try {
+                updatePrenda = (PrendaNueva) prendaService.update(updatePrenda);
+            } catch (BusinessException e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(e.getMessage(),
+
+                        HttpStatus.EXPECTATION_FAILED);
+
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            }
+        } else {
+            LOGGER.error("Prenda a modificar es null");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        try {
+            prendaResponse = prendaMapper.mapToPrendaNuevaResponse(updatePrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/prendas/promo/{id}")
+    public ResponseEntity<Object> updatePrendaPromocion(@PathVariable("id") long id,
+
+                                                    @RequestBody PrendaPromocionUpdateRequest datosPrenda) {
+        PrendaPromocion updatePrenda = null;
+        PrendaPromocion newPrenda = null;
+        PrendaPromocionResponse prendaResponse = null;
+        try {
+            newPrenda = prendaMapper.mapToPrendaPromocion(datosPrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            updatePrenda = (PrendaPromocion) prendaService.findById(id);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        if (Objects.nonNull(updatePrenda)) {
+            updatePrenda.setDescripcion(newPrenda.getDescripcion());
+            updatePrenda.setTipo(newPrenda.getTipo());
+            updatePrenda.setPrecioBase(newPrenda.getPrecioBase());
+            updatePrenda.setValorDescuento(newPrenda.getValorDescuento());
+
+
+            try {
+                updatePrenda = (PrendaPromocion) prendaService.update(updatePrenda);
+            } catch (BusinessException e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(e.getMessage(),
+
+                        HttpStatus.EXPECTATION_FAILED);
+
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            }
+        } else {
+            LOGGER.error("Prenda a modificar es null");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        try {
+            prendaResponse = prendaMapper.mapToPrendaPromocionResponse(updatePrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/prendas/liqui/{id}")
+    public ResponseEntity<Object> updatePrendaLiquidacion(@PathVariable("id") long id,
+
+                                                    @RequestBody PrendaLiquidacionUpdateRequest datosPrenda) {
+        PrendaLiquidacion updatePrenda = null;
+        PrendaLiquidacion newPrenda = null;
+        PrendaLiquidacionResponse prendaResponse = null;
+        try {
+            newPrenda = prendaMapper.mapToPrendaLiquidacion(datosPrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        try {
+            updatePrenda = (PrendaLiquidacion) prendaService.findById(id);
+        } catch (BusinessException e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+        if (Objects.nonNull(updatePrenda)) {
+            updatePrenda.setDescripcion(newPrenda.getDescripcion());
+            updatePrenda.setTipo(newPrenda.getTipo());
+            updatePrenda.setPrecioBase(newPrenda.getPrecioBase());
+            updatePrenda.setPorcentajeDescuento(newPrenda.getPorcentajeDescuento());
+
+            try {
+                updatePrenda = (PrendaLiquidacion) prendaService.update(updatePrenda);
+            } catch (BusinessException e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(e.getMessage(),
+
+                        HttpStatus.EXPECTATION_FAILED);
+
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                e.printStackTrace();
+                return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+            }
+        } else {
+            LOGGER.error("Prenda a modificar es null");
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+        try {
+            prendaResponse = prendaMapper.mapToPrendaLiquidacionResponse(updatePrenda);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
+    }
 
     /**
      * Borrado de la prenda

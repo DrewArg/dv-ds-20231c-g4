@@ -55,26 +55,12 @@ public class PrendaControllerRest extends TiendaAppRest {
             LOGGER.error("Error: " + e.getMessage());
             e.printStackTrace();
         }
-// Mapear Prendas a PrendaRespose
-// No lo vamos a hacer
-// Podría haber una clase por entidad que haga este pasaje de Objeto
-// de Modelo a Objeto DTO
-//for (Prenda prenda : prendas) {
-// PrendaResponse response = PrendaResponse.builder()
-// .id(prenda.getId())
-// .descripcion(prenda.getDescripcion())
-// .tipo(prenda.getTipo().toString())
-// .precioBase(prenda.getPrecioBase())
-// .build();
-//}
-// Mapear Prendas a PrendaResponse con Orika
+
         try {
-//prendaResponse = prendas.map(prenda -> mapper.map(prenda,PrendaResponse.class));
 
             LOGGER.info(">>>>> prendas >>>> " + prendas.toString());
             showPrendas(prendas);
-            //TODO uncomment next line and fix it to make it work
-//            prendaResponse = prendas.map(prendaMapper::mapToPrendaResponse);
+            prendaResponse = prendas.map(prendaMapper::mapToPrendaResponse);
             showPrendaResonse(prendaResponse);
             LOGGER.info(">>>>> prendaResponse >>>> " + prendaResponse.toString());
         } catch (Exception e) {
@@ -114,10 +100,8 @@ public class PrendaControllerRest extends TiendaAppRest {
             e.printStackTrace();
         }
         try {
-//prendaResponse = mapper.map(prenda, PrendaResponse.class);
-            //TODO uncomment next line and fix it to make it work
 
-//            prendaResponse = prendaMapper.mapToPrendaResponse(prenda);
+            prendaResponse = prendaMapper.mapToPrendaResponse(prenda);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
@@ -195,47 +179,14 @@ public class PrendaControllerRest extends TiendaAppRest {
         }
         return new ResponseEntity<>(prendaPromocionResponse, HttpStatus.CREATED);
     }
-
-//    @PostMapping(path = "/prendas/new")
-//    public ResponseEntity<PrendaResponse> createPrenda(@RequestBody PrendaInsertRequest
-//                                                               datosPrenda) {
 //
-//        Prenda prenda = null;
-//        PrendaResponse prendaResponse = null;
-//// Convertir PrendaInsertRequest en Prenda
-//        try {
-////prenda = mapper.map(datosPrenda, Prenda.class);
-//            prenda = prendaMapper.mapToPrenda(datosPrenda);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//        }
-//// Grabar el nuevo Prenda
-//        try {
-//            prenda = prendaService.save(prenda);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-//        }
-//// Convertir Prenda en PrendaResponse
-//        try {
-////prendaResponse = mapper.map(prenda, PrendaResponse.class);
-//            prendaResponse = prendaMapper.mapToPrendaResponse(prenda);
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage());
-//            e.printStackTrace();
-//        }
-//        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
-//    }
-
-    /**
-     * Modificar los datos de un prenda
-     *
-     * @param id identificador de una prenda
-     * @param datosPrenda datos a modificar de la prenda
-     * @return los datos de una prenda modificada
-     */
+//    /**
+//     * Modificar los datos de un prenda
+//     *
+//     * @param id identificador de una prenda
+//     * @param datosPrenda datos a modificar de la prenda
+//     * @return los datos de una prenda modificada
+//     */
 //    @PutMapping("/prendas/{id}")
 //    public ResponseEntity<Object> updatePrenda(@PathVariable("id") long id,
 //
@@ -299,7 +250,7 @@ public class PrendaControllerRest extends TiendaAppRest {
      * @return
      */
     @DeleteMapping("/prendas/{id}")
-    public ResponseEntity<HttpStatus> deletePrenda(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         try {
             prendaService.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

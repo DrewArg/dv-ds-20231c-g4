@@ -37,14 +37,6 @@ public class PrendaServiceImplementation implements PrendaService {
         this.prendaPromocionRepository = prendaPromocionRepository;
     }
 
-    public Prenda update(final Prenda prenda) throws BusinessException {
-        LOGGER.debug("Modificamos la prenda: " + prenda.toString());
-        if (prenda.getId() != null) {
-            return prendaRepository.save(prenda);
-        }
-        throw new BusinessException("No se puede modificar una prenda que aún no fue creada.");
-    }
-
     /**
      * @param prendaNueva
      * @return
@@ -105,26 +97,25 @@ public class PrendaServiceImplementation implements PrendaService {
         throw new BusinessException("no se puede guardar una prenda con un ID específico");
     }
 
-    @Override
-    public void delete(final Prenda prenda) {
-        LOGGER.debug("Borramos la prenda: " + prenda.toString());
-        prendaRepository.delete(prenda);
-        //TODO VER SI ESTO SE PROPAGA A TODOS LADOS O NO
-//        if (prenda.getEstadoPrenda() == EstadoPrenda.NUEVA) {
-//            prendaNuevaRepository.deleteById(prenda.getId());
-//        } else if (prenda.getEstadoPrenda() == EstadoPrenda.PROMOCION) {
-//            prendaPromocionRepository.deleteById(prenda.getId());
-//        } else if (prenda.getEstadoPrenda() == EstadoPrenda.LIQUIDACION) {
-//            prendaLiquidacionRepository.deleteById(prenda.getId());
-//        } else {
-//            LOGGER.warn("no se encontró la prenda a borrar");
-//        }
 
+    public Prenda update(final Prenda prenda) throws BusinessException {
+        LOGGER.debug("Modificamos la prenda: " + prenda.toString());
+        if (prenda.getId() != null) {
+            return prendaRepository.save(prenda);
+        }
+        throw new BusinessException("No se puede modificar una prenda que aún no fue creada.");
     }
 
+
+    @Override
     public void delete(final Long id) {
-        LOGGER.debug("Borramos la prenda por id: " + id);
-        prendaRepository.deleteById(id);
+        Optional<Prenda> prenda = prendaRepository.findById(id);
+
+        if (prenda.isPresent()) {
+            Prenda pren = prenda.get();
+            LOGGER.debug("Borramos la prenda: " + pren.toString());
+            prendaRepository.delete(pren);
+            }
     }
 
     @Override

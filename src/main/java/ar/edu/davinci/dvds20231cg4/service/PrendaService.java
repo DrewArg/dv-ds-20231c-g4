@@ -4,7 +4,6 @@ import ar.edu.davinci.dvds20231cg4.domain.*;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,12 +15,8 @@ public interface PrendaService {
     PrendaPromocion save(PrendaPromocion prendaPromocion) throws BusinessException;
 
     PrendaLiquidacion save(PrendaLiquidacion prendaLiquidacion) throws BusinessException;
-//
-//    Prenda save(final Prenda prenda) throws BusinessException;
-//
-//    Prenda update(final Prenda prenda) throws BusinessException;
 
-    void delete(Prenda prenda);
+    Prenda update(final Prenda prenda) throws BusinessException;
 
     void delete(final Long id);
 

@@ -22,12 +22,11 @@
   </div>
 
   <br />
-  <form action="#" th:action="@{/tienda/prendas/save}"
-        th:object="${prenda}" method="post">
+  <form id="prendaForm" th:object="${prenda}" method="post" onsubmit="redireccionamiento()">
     <table class="table table-striped table-light table-hover col-md-6">
       <tr>
         <td>Prenda ID:</td>
-        <td><input type="text" th:field="*{id}" readonly="readonly"
+        <td><input id="prendaId" type="text" th:field="*{id}" readonly="readonly"
 
         />
 
@@ -58,7 +57,7 @@
       <tr>
         <td>Estado:</td>
         <td th:object="${tipoEstados}">
-          <select id="estado" name="estado">
+          <select id="estadoPrendaDropdown" name="estado">
             <option value="">Elija un tipo</option>
             <option th:each="estado: ${tipoEstados}"
                     th:text="${estado}"
@@ -73,5 +72,18 @@
     </table>
   </form>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const estadoPrendaDropdown = document.getElementById('estadoPrendaDropdown');
+    const prendaForm = document.getElementById('prendaForm');
+    const id = document.getElementById('prendaId').value;
+
+    estadoPrendaDropdown.addEventListener('change', function() {
+      const selectedValue = estadoPrendaDropdown.value;
+
+      prendaForm.action = '/tienda/prendas/edit/' + selectedValue+ '/'+id;
+    });
+  });
+</script>
 </body>
 </html>

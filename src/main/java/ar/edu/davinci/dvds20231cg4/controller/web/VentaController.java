@@ -47,8 +47,7 @@ public class VentaController extends TiendaApp {
     private final VentaMapper ventaMapper = VentaMapper.instance;
     private final ItemMapper itemMapper = ItemMapper.instance;
 
-    // @Autowired
-// private MapperFacade mapper;
+
     @GetMapping(path = "ventas/list")
     public String showVentaPage(Model model) {
         LOGGER.info("GET - showVentaPage - /ventas/list");

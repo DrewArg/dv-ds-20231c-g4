@@ -17,7 +17,7 @@ public interface VentaMapper {
  //VENTA EFECTIVO
 @Mapping(target = "cliente", source = "cliente")
 @Mapping(target = "items", source = "pedidoVentaItems")
-//@Mapping(target = "importeFinal", expression = "java(new java.math.BigDecimal(ventaEfectivo.importeFinal().doubleValue()))")
+@Mapping(target = "importeFinal", expression = "java(new java.math.BigDecimal(ventaEfectivo.importeFinal().doubleValue()))")
     VentaEfectivoResponse mapToVentaEfectivoResponse(VentaEfectivo ventaEfectivo);
     @Mapping(target = "cliente.id", source = "clienteId")
     VentaEfectivo mapToVentaEfectivo(VentaEfectivoRequest ventaEfectivoRequest);

@@ -35,6 +35,12 @@ body{
 	   	width: 15px;
 }
 
+a{
+    text-decoration: none;
+    color: azure;
+    border-color: #503630;
+}
+
 #Boton{
 	text-decoration: none;
     color: azure;

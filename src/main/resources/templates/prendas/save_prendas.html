@@ -12,18 +12,23 @@
 <body>
 <div align="center">
   <h1>Crear una nueva Prenda</h1>
+
   <br />
- <div class="d-grid gap-2 col-2">
-      <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda">Volver al menú pricipal</a></button>
-     <!-- <th>&nbsp;</th>-->
-      <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda/prendas/list">Volver</a></button>
+
+  <div class="d-grid gap-2 col-4">
+    <a class="text-decoration-none btn btn-secondary  btn-sm" href="/tienda" >Volver al menú pricipal</a>
+
+    <!--<th>&nbsp;</th>-->
+    <a class="text-decoration-none btn btn-secondary  btn-sm" href="/tienda/prendas/list">Volver</a>
+  </div>
+
   <br />
   <form action="" th:action="@{/tienda/prendas/estado}"
         th:object="${prenda}" method="post">
-    <table class="table">
+    <table class="table table-striped table-light table-hover col-md-6">
       <tr>
-        <td>Descripción:</td>
-        <td><input type="text" th:field="*{descripcion}" /></td>
+        <th>Descripción:</th>
+        <th><input type="text" th:field="*{descripcion}" /></th>
       </tr>
       <tr>
         <td>Tipo:</td>

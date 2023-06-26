@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body{
+    font-family: 'Dongle', sans-serif;
+    background-color: floralwhite;
+
+}
+
+#BotonesListados{
+	text-decoration: none;
+	color: #333;
+	text-shadow: #503630;
+}
+
+#botonEditar{
+    background-color:  #82e7c8;
+    color: #503630;
+    border-color: #503630;
+}
+#botonBorrar{
+    background-color: #e2a17d;
+    color:#503630;
+    border-color: #503630;
+}
+
+#ListaPrendas{
+	    border-color: #503630;
+	    border-style: double;
+	   	width: 15px;
+}
+
+#Boton{
+	text-decoration: none;
+    color: azure;
+    border-color: #503630;
+}
+
+footer .contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.copy{
+    font-size: 20px;
+}
+
+.sociales{
+    width: 100%;
+    text-align: center;
+    font-size: 28px;
+}
+
+.sociales a{
+    color: #333;
+    text-decoration: none;
+}
+
+@media (min-widht:768px){
+    .sociales{
+        width: auto;
+    }
+    footer .contenedor{
+        justify-content: space-between;
+    }
+}
+
+@media (min-widht:1024px){
+    .contenedor {
+        width: 1000px;
+    }
+}

@@ -4,77 +4,42 @@
 <head>
   <meta charset="utf-8" />
   <title>Administrador de Ventas</title>
+  <link rel="stylesheet" href="css/fontello.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
 </head>
 <body>
 <div align="center">
   <h1>Listado de Ventas</h1>
   <br />
-  <table>
-    <tbody>
-    <tr>
-      <th><button style="background-color: #008CBA; font-size:
-
-medium; font-family:Arial; ">
-
-        <a style="color: white" href="/tienda">Volver al menú
-
-          pricipal</a></button></th>
-
-      <th>&nbsp;</th>
-      <th><button style="background-color: #008CBA; font-size:
-
-medium; font-family:Arial;">
-
-        <a style="color: white"
-
-           href="/tienda/ventas/efectivo/new">Crear una nueva
-
-          Venta Efectivo</a></button></th>
-
-      <th><button style="background-color: #008CBA; font-size:
-
-medium; font-family:Arial;">
-
-        <a style="color: white"
-
-           href="/tienda/ventas/tarjeta/new">Crear una nueva
-          Venta Tarjeta</a></button></th>
-
-    </tr>
-    </tbody>
-  </table>
+  <div class="d-grid gap-2 col-2">
+ 	<button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda" id="Boton">Volver al menú pricipal</a></button>
+     <!-- <th>&nbsp;</th>-->
+     <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda/ventas/efectivo/new" id="Boton">Crear una nueva Venta Efectivo</a></button>
+     <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda/ventas/tarjeta/new" id="Boton">Crear una nueva Venta Tarjeta</a></button>
+   	</div>
   <br />
-  <table border="1" cellpadding="10">
-    <thead>
+  <table class="table">
+  <thead>
     <tr>
-      <th>Venta ID</th>
-      <th>Fecha</th>
-      <th>Cliente</th>
-      <th>Importe</th>
-      <th>Acciones</th>
+      <th scope="col">Venta ID</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Cliente</th>
+      <th scope="col">Acciones</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody class="table-group-divider">
     <tr th:each="venta : ${listVentas}">
+      <th scope="row">1</th>
       <td th:text="${venta.id}">Venta ID</td>
       <td th:text="${venta.fecha}">Fecha</td>
       <td th:text="${venta.razonSocial}">Cliente</td>
-      <td th:text="${venta.importeFinalStr}"
-
-          style="text-align:right;">Importe Final</td>
-
-      <td><a th:href="@{'/tienda/ventas/show/' +
-
-${venta.id}}">Mostrar</a>
-
-        &nbsp;&nbsp;&nbsp;
-
-        <!-- <a th:href="@{'/tienda/ventas/delete/' +
-        ${venta.id}}">Borrar</a> -->
-      </td>
+      <td th:text="${venta.importeFinalStr}">Importe Final</td>
+      <td><a th:href="@{'/tienda/ventas/show/' + ${venta.id}}">Mostrar</a>&nbsp;&nbsp;&nbsp;</td>
     </tr>
-    </tbody>
-  </table>
+  </tbody>
+</table>   
 </div>
 </body>
 </html>

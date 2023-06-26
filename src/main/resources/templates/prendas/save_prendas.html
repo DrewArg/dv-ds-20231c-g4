@@ -4,24 +4,23 @@
 <head>
   <meta charset="utf-8" />
   <title>Crea un nuevo Prenda</title>
+  <link rel="stylesheet" href="css/fontello.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
 </head>
 <body>
 <div align="center">
   <h1>Crear una nueva Prenda</h1>
   <br />
-  <table>
-    <tbody>
-    <tr>
-      <th><a href="/tienda">Volver al menú pricipal</a></th>
-      <th>&nbsp;</th>
-      <th><a href="/tienda/prendas/list">Volver</a></th>
-    </tr>
-    </tbody>
-  </table>
+ <div class="d-grid gap-2 col-2">
+      <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda">Volver al menú pricipal</a></button>
+     <!-- <th>&nbsp;</th>-->
+      <button class="btn btn-secondary  btn-sm" type="button"><a href="/tienda/prendas/list">Volver</a></button>
   <br />
   <form action="" th:action="@{/tienda/prendas/estado}"
         th:object="${prenda}" method="post">
-    <table border="0" cellpadding="10">
+    <table class="table">
       <tr>
         <td>Descripción:</td>
         <td><input type="text" th:field="*{descripcion}" /></td>

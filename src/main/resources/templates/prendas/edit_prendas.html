@@ -56,6 +56,18 @@
         <td><input type="text" th:field="*{precioBase}" /></td>
       </tr>
       <tr>
+        <td>Estado:</td>
+        <td th:object="${tipoEstados}">
+          <select id="estado" name="estado">
+            <option value="">Elija un tipo</option>
+            <option th:each="estado: ${tipoEstados}"
+                    th:text="${estado}"
+                    th:value="${estado}">
+            </option>
+          </select>
+        </td>
+      </tr>
+      <tr>
         <td colspan="2"><button type="submit">Grabar</button></td>
       </tr>
     </table>

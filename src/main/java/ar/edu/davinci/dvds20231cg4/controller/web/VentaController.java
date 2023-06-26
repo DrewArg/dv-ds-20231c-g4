@@ -1,27 +1,5 @@
 package ar.edu.davinci.dvds20231cg4.controller.web;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
-import ar.edu.davinci.dvds20231cg4.domain.PedidoVentaItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 import ar.edu.davinci.dvds20231cg4.Constantes;
 import ar.edu.davinci.dvds20231cg4.controller.TiendaApp;
 import ar.edu.davinci.dvds20231cg4.controller.response.VentaEfectivoResponse;
@@ -30,6 +8,7 @@ import ar.edu.davinci.dvds20231cg4.controller.response.VentaTarjetaResponse;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaEfectivoCreateRequest;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaItemCreateRequest;
 import ar.edu.davinci.dvds20231cg4.controller.web.request.VentaTarjetaCreateRequest;
+import ar.edu.davinci.dvds20231cg4.domain.PedidoVentaItem;
 import ar.edu.davinci.dvds20231cg4.domain.Venta;
 import ar.edu.davinci.dvds20231cg4.domain.VentaEfectivo;
 import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
@@ -38,9 +17,27 @@ import ar.edu.davinci.dvds20231cg4.mapper.ItemMapper;
 import ar.edu.davinci.dvds20231cg4.mapper.VentaMapper;
 import ar.edu.davinci.dvds20231cg4.service.ItemService;
 import ar.edu.davinci.dvds20231cg4.service.VentaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 //import ma.glasnost.orika.MapperFacade;
 @Controller
-public class VentaController extends TiendaApp{
+public class VentaController extends TiendaApp {
     private final Logger LOGGER = LoggerFactory.getLogger(VentaController.class);
 
     @Autowired
@@ -49,6 +46,7 @@ public class VentaController extends TiendaApp{
     private ItemService itemService;
     private final VentaMapper ventaMapper = VentaMapper.instance;
     private final ItemMapper itemMapper = ItemMapper.instance;
+
     // @Autowired
 // private MapperFacade mapper;
     @GetMapping(path = "ventas/list")
@@ -78,6 +76,7 @@ public class VentaController extends TiendaApp{
         LOGGER.info("ventas: " + venta.toString());
         return "ventas/new_ventas_efectivo";
     }
+
     @GetMapping(path = "/ventas/tarjeta/new")
     public String showNewVentaTarjetaPage(Model model) {
         LOGGER.info("GET - showNewVentaPage - /ventas/tarjeta/new");
@@ -91,15 +90,16 @@ public class VentaController extends TiendaApp{
         LOGGER.info("ventas: " + venta.toString());
         return "ventas/new_ventas_tarjeta";
     }
+
     @GetMapping(path = "/ventas/{ventaId}/item/new")
     public String showNewItemPage(Model model, @PathVariable(name = "ventaId") Long
             ventaId) {
 
-        LOGGER.info("GET - showNewItemPage - /venta/"+ventaId+"/item/new");
+        LOGGER.info("GET - showNewItemPage - /venta/" + ventaId + "/item/new");
         VentaItemCreateRequest item = new VentaItemCreateRequest();
         item.setVentaId(ventaId);
 
-        model.addAttribute("item", item);
+        model.addAttribute("pedidoVentaItem", item);
         LOGGER.info("item: " + item.toString());
         return "ventas/new_ventas_item";
     }
@@ -111,8 +111,6 @@ public class VentaController extends TiendaApp{
         LOGGER.info("POST - saveVenta - /ventas/efectivo/save");
         LOGGER.info("datosVenta: " + datosVenta.toString());
         VentaEfectivo venta = ventaMapper.mapToVentaEfectivo(datosVenta);
-//VentaEfectivo venta = mapper.map(datosVenta, VentaEfectivo.class);
-// Grabar el nuevo Venta
         try {
             venta = ventaService.save(venta);
         } catch (Exception e) {
@@ -120,6 +118,7 @@ public class VentaController extends TiendaApp{
         }
         return "redirect:/tienda/ventas/list";
     }
+
     @PostMapping(value = "/ventas/tarjeta/save")
     public String saveVentaTarjeta(@ModelAttribute("venta") VentaTarjetaCreateRequest
                                            datosVenta) {
@@ -127,8 +126,6 @@ public class VentaController extends TiendaApp{
         LOGGER.info("POST - saveVenta - /ventas/tarjeta/save");
         LOGGER.info("venta: " + datosVenta.toString());
         VentaTarjeta venta = ventaMapper.mapToVentaTarjeta(datosVenta);
-//VentaTarjeta venta = mapper.map(datosVenta, VentaTarjeta.class);
-        // Grabar el nuevo Venta
         try {
             venta = ventaService.save(venta);
         } catch (Exception e) {
@@ -136,6 +133,7 @@ public class VentaController extends TiendaApp{
         }
         return "redirect:/tienda/ventas/list";
     }
+
     @RequestMapping(value = "/ventas/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showEditVentaPage(@PathVariable(name = "id") Long ventaId) {
         LOGGER.info("GET - showEditVentaPage - /ventas/edit/{id}");
@@ -145,11 +143,11 @@ public class VentaController extends TiendaApp{
             Venta venta = ventaService.findById(ventaId);
             mav.addObject("venta", venta);
         } catch (BusinessException e) {
-// TODO Auto-generated catch block
             e.printStackTrace();
         }
         return mav;
     }
+
     @PostMapping(value = "/ventas/item/save")
     public String saveVentaItem(@ModelAttribute("item") VentaItemCreateRequest
                                         datosVentaItem) {
@@ -157,19 +155,17 @@ public class VentaController extends TiendaApp{
         LOGGER.info("POST - saveVentaItem - ventas/pedidoVentaItem/save");
         LOGGER.info("datosVentaItem: " + datosVentaItem.toString());
         //TODO uncomment next line and make it work
-//        PedidoVentaItem pedidoVentaItem = itemMapper.mapToItem(datosVentaItem);
-//PedidoVentaItem pedidoVentaItem = mapper.map(datosVentaItem, PedidoVentaItem.class);
-// Grabar el nuevo Venta
+        PedidoVentaItem pedidoVentaItem = itemMapper.mapToItem(datosVentaItem);
         Venta venta = null;
         try {
             //TODO uncomment next line and make it work
-//            venta = ventaService.addItem(datosVentaItem.getVentaId(), pedidoVentaItem);
+            venta = ventaService.addItem(datosVentaItem.getVentaId(), pedidoVentaItem);
         } catch (Exception e) {
             e.printStackTrace();
         }
         LOGGER.info("Venta Grabada: " + venta.toString());
-        LOGGER.info("redirect:/ventas/edit/"+datosVentaItem.getVentaId().toString());
-        return "redirect:/tienda/ventas/show/"+datosVentaItem.getVentaId().toString();
+        LOGGER.info("redirect:/ventas/edit/" + datosVentaItem.getVentaId().toString());
+        return "redirect:/tienda/ventas/show/" + datosVentaItem.getVentaId().toString();
     }
 
     @GetMapping(path = "/ventas/show/{id}")
@@ -187,20 +183,15 @@ public class VentaController extends TiendaApp{
             e1.printStackTrace();
         }
         List<VentaResponse> ventasToResponse = new ArrayList<VentaResponse>();
-// Convertir Venta en VentaResponse
         try {
             if (venta instanceof VentaEfectivo) {
                 VentaEfectivoResponse ventaResponse =
                         ventaMapper.mapToVentaEfectivoResponse((VentaEfectivo) venta);
 
-//VentaEfectivoResponse ventaResponse = mapper.map((VentaEfectivo) venta, VentaEfectivoResponse.class);
-
                 ventasToResponse.add(ventaResponse);
             } else if (venta instanceof VentaTarjeta) {
                 VentaTarjetaResponse ventaResponse =
                         ventaMapper.mapToVentaTarjetaResponse((VentaTarjeta) venta);
-
-//VentaTarjetaResponse ventaResponse = mapper.map((VentaTarjeta) venta, VentaTarjetaResponse.class);
 
                 ventasToResponse.add(ventaResponse);
             }
@@ -213,6 +204,7 @@ public class VentaController extends TiendaApp{
 
         return mav;
     }
+
     @RequestMapping(value = "/ventas/delete/{id}", method = RequestMethod.GET)
     public String deleteVenta(@PathVariable(name = "id") Long ventaId) {
         LOGGER.info("GET - deleteVenta - /ventas/delete/{id}");
@@ -220,8 +212,9 @@ public class VentaController extends TiendaApp{
         ventaService.delete(ventaId);
         return "redirect:/tienda/ventas/list";
     }
+
     @RequestMapping(value = "/item/delete/{id}", method = RequestMethod.GET)
-    public String deleteItem(@PathVariable(name= "id")Long itemId){
+    public String deleteItem(@PathVariable(name = "id") Long itemId) {
         LOGGER.info("Get - deleteItem - /item/delete/{id}");
         LOGGER.info("item: " + itemId);
         itemService.delete(itemId);

@@ -27,6 +27,7 @@
       <th scope="col">Fecha</th>
       <th scope="col">Cliente</th>
       <th scope="col">Importe final</th>
+      <th scope="col">Modo Venta</th>
       <th scope="col">Acciones</th>
     </tr>
   </thead>
@@ -36,6 +37,7 @@
       <td th:text="${venta.fecha}">Fecha</td>
       <td th:text="${venta.razonSocial}">Cliente</td>
       <td th:text="${venta.importeFinalStr}">Importe Final</td>
+      <td th:text="${venta.get}">Importe Final</td>
       <td><a th:href="@{'/tienda/ventas/show/' + ${venta.id}}">Mostrar</a>&nbsp;&nbsp;&nbsp;</td>
     </tr>
   </tbody>

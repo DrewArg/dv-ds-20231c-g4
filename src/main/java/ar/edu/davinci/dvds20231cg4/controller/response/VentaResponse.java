@@ -11,6 +11,6 @@ public class VentaResponse {
     private Long id;
     private ClienteResponse cliente;
     private String fecha;
-    private List<ItemResponse> items;
+    private List<ItemResponse> pedidoVentaItems;
     private BigDecimal importeFinal;
 }

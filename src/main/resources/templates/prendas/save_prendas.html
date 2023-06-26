@@ -1,30 +1,23 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <title>Crea un nuevo Prenda</title>
   <link rel="stylesheet" href="css/fontello.css">
   <link rel="stylesheet" href="css/estilos.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-
-</head>
+ </head>
 <body>
 <div align="center">
   <h1>Crear una nueva Prenda</h1>
-
   <br />
-
   <div class="d-grid gap-2 col-4">
-    <a class="text-decoration-none btn btn-secondary  btn-sm" href="/tienda" >Volver al menú pricipal</a>
-
+    <a class="text-decoration-none btn btn-secondary btn-sm" href="/tienda">Volver al menú principal</a>
     <!--<th>&nbsp;</th>-->
-    <a class="text-decoration-none btn btn-secondary  btn-sm" href="/tienda/prendas/list">Volver</a>
+    <a class="text-decoration-none btn btn-secondary btn-sm" href="/tienda/prendas/list">Volver</a>
   </div>
-
   <br />
-  <form action="" th:action="@{/tienda/prendas/estado}"
-        th:object="${prenda}" method="post">
+  <form id="prendaForm" th:object="${prenda}" method="post" onsubmit="redireccionamiento()">
     <table class="table table-striped table-light table-hover col-md-6">
       <tr>
         <th>Descripción:</th>
@@ -33,7 +26,7 @@
       <tr>
         <td>Tipo:</td>
         <td th:object="${tipoPrendas}">
-          <select id="tipo" name="tipo">
+          <select id="tipoPrendaDropdown" name="tipo">
             <option value="">Elija un tipo</option>
             <option th:each="tipoPrenda : ${tipoPrendas}"
                     th:value="${tipoPrenda}"
@@ -49,7 +42,7 @@
       <tr>
         <td>Estado:</td>
         <td th:object="${tipoEstados}">
-          <select id="estado" name="estado">
+          <select id="estadoPrendaDropdown" name="estado">
             <option value="">Elija un tipo</option>
             <option th:each="estado: ${tipoEstados}"
                     th:text="${estado}"
@@ -59,11 +52,24 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2"><button type="submit">Grabar</button></td>
+        <td colspan="2">
+          <input type="submit" value="Guardar">
+        </td>
       </tr>
-
     </table>
   </form>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const estadoPrendaDropdown = document.getElementById('estadoPrendaDropdown');
+    const prendaForm = document.getElementById('prendaForm');
+
+    estadoPrendaDropdown.addEventListener('change', function() {
+      const selectedValue = estadoPrendaDropdown.value;
+
+      prendaForm.action = '/tienda/prendas/new/' + selectedValue;
+    });
+  });
+</script>
 </body>
 </html>

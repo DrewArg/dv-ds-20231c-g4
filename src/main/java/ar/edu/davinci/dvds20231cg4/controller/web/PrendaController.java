@@ -47,7 +47,7 @@ public class PrendaController extends TiendaApp{
         LOGGER.info("prendas: " + prendaNueva.toString());
         return "prendas/save_prendas";
     }
-    @PostMapping(value = "/prendas/new/nueva")
+    @PostMapping(value = "/prendas/new/NUEVA")
     public String savePrenda(@ModelAttribute("prenda") PrendaNueva prendaNueva) {
         LOGGER.info("POST - savePrenda - /prendas/new");
         LOGGER.info("prenda: " + prendaNueva.toString());
@@ -62,7 +62,7 @@ public class PrendaController extends TiendaApp{
         }
         return "redirect:/tienda/prendas/list";
     }
-    @PostMapping(value = "/prendas/new/promo")
+    @PostMapping(value = "/prendas/new/PROMOCION")
     public String savePrenda(@ModelAttribute("prenda") PrendaPromocion prendaPromocion) {
         LOGGER.info("POST - savePrenda - /prendas/new");
         LOGGER.info("prenda: " + prendaPromocion.toString());
@@ -78,7 +78,7 @@ public class PrendaController extends TiendaApp{
         return "redirect:/tienda/prendas/list";
     }
 
-    @PostMapping(value = "/prendas/new/liqui")
+    @PostMapping(value = "/prendas/new/LIQUIDACION")
     public String savePrenda(@ModelAttribute("prenda") PrendaLiquidacion prendaLiquidacion) {
         LOGGER.info("POST - savePrenda - /prendas/new");
         LOGGER.info("prenda: " + prendaLiquidacion.toString());
@@ -103,11 +103,13 @@ public class PrendaController extends TiendaApp{
             prenda = prendaService.findById(prendaId);
             mav.addObject("prenda", prenda);
             mav.addObject("tipoPrendaActual", prenda.getTipo());
+
         } catch (BusinessException e) {
             LOGGER.error("ERROR AL TRAER LA PRENDA");
             e.printStackTrace();
         }
         mav.addObject("tipoPrendas", prendaService.getTipoPrendas());
+        mav.addObject("tipoEstados", prendaService.getEstadoPrendas());
         return mav;
     }
     @RequestMapping(value = "/prendas/delete/{id}", method = RequestMethod.GET)

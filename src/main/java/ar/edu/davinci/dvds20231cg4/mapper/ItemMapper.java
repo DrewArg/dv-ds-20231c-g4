@@ -19,8 +19,9 @@ public interface ItemMapper {
     ItemResponse mapToItemResponse(PedidoVentaItem pedidoVentaItem);
 //TODO UNCOMMENT THE FOLLOWING AND MAKE IT WORK
     //    @Mapping(target = "prenda", source = "prendaId")
-//    PedidoVentaItem mapToItem(ItemInsertRequest itemDto);
+    PedidoVentaItem mapToItem(ItemInsertRequest itemDto);
 
+    PedidoVentaItem mapToItem(VentaItemCreateRequest itemDto);
     PedidoVentaItem mapToItem(ItemUpdateRequest itemDto);
 
     @Mapping(target = "importe", expression = "java(new java.math.BigDecimal(item.importe().doubleValue()))")

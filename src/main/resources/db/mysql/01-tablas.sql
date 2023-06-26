@@ -1,43 +1,31 @@
---
--- Drop Table structure for table ventas_tarjeta
---
+
 DROP TABLE IF EXISTS ventas_tarjeta;
---
--- Drop Table structure for table ventas_efectivo
---
+
 DROP TABLE IF EXISTS ventas_efectivo;
---
--- Drop Table structure for table venta_items
---
+
 DROP TABLE IF EXISTS venta_items;
---
--- Drop Table structure for table ventas
---
+
 DROP TABLE IF EXISTS ventas;
---
--- Drop Table structure for table prendas
---
-DROP TABLE IF EXISTS prendas;
---
--- Drop Table structure for table clientes
---
-DROP TABLE IF EXISTS clientes;
---
--- Table structure for table clientes
---
+
 DROP TABLE IF EXISTS prendas_nueva;
---
--- Table structure for prendas_nueva;
---
+
+DROP TABLE IF EXISTS prendas_liquidacion;
+
+DROP TABLE IF EXISTS prendas_promocion;
+
+DROP TABLE IF EXISTS prendas;
+
+DROP TABLE IF EXISTS clientes;
+
+
+
 CREATE TABLE clientes (
                           cli_id bigint NOT NULL AUTO_INCREMENT,
                           cli_apellido varchar(255) DEFAULT NULL,
                           cli_nombre varchar(255) DEFAULT NULL,
                           PRIMARY KEY (cli_id)
 );
---
--- Table structure for table prendas
---
+
 CREATE TABLE prendas (
                          prd_id bigint NOT NULL AUTO_INCREMENT,
                          prd_descripcion varchar(255) DEFAULT NULL,
@@ -46,9 +34,7 @@ CREATE TABLE prendas (
                          prd_estado_prenda varchar(255) DEFAULT NULL,
                          PRIMARY KEY (prd_id)
 );
---
--- Table structure for table ventas
---
+
 CREATE TABLE ventas (
                         vta_id bigint NOT NULL AUTO_INCREMENT,
                         tipo_venta varchar(31) NOT NULL,
@@ -58,9 +44,7 @@ CREATE TABLE ventas (
                         KEY vta_cli_fk (vta_cli_id),
                         CONSTRAINT vta_cli_fk FOREIGN KEY (vta_cli_id) REFERENCES clientes (cli_id)
 );
---
--- Table structure for table venta_items
---
+
 CREATE TABLE venta_items (
                              itm_id bigint NOT NULL AUTO_INCREMENT,
                              itm_cantidad int DEFAULT NULL,
@@ -72,17 +56,13 @@ CREATE TABLE venta_items (
                              KEY itm_prd_fk (itm_prd_id),
                              CONSTRAINT itm_prd_fk FOREIGN KEY (itm_prd_id) REFERENCES prendas (prd_id)
 );
---
--- Table structure for table ventas_efectivo
---
+
 CREATE TABLE ventas_efectivo (
                                  vta_id bigint NOT NULL,
                                  PRIMARY KEY (vta_id),
                                  CONSTRAINT vte_vta_fk FOREIGN KEY (vta_id) REFERENCES ventas (vta_id)
 );
---
--- Table structure for table ventas_tarjeta
---
+
 CREATE TABLE ventas_tarjeta (
                                 vta_id bigint NOT NULL,
                                 vtt_cantidad_cuotas int DEFAULT NULL,
@@ -92,7 +72,19 @@ CREATE TABLE ventas_tarjeta (
 );
 
 CREATE TABLE prendas_nueva(
-                              prd_id bigint NOT NULL AUTO_INCREMENT,
+                              prd_id bigint NOT NULL,
                               PRIMARY KEY (prd_id),
                               CONSTRAINT prd_pnu_fk FOREIGN KEY (prd_id) REFERENCES prendas (prd_id)
+);
+CREATE TABLE prendas_liquidacion(
+                              prd_id bigint NOT NULL,
+                              prd_porcen_dto int DEFAULT NULl,
+                              PRIMARY KEY (prd_id),
+                              CONSTRAINT prd_pliq_fk FOREIGN KEY (prd_id) REFERENCES prendas (prd_id)
+);
+CREATE TABLE prendas_promocion(
+                              prd_id bigint NOT NULL,
+                              prd_val_dto int DEFAULT NULl,
+                              PRIMARY KEY (prd_id),
+                              CONSTRAINT prd_pro_fk FOREIGN KEY (prd_id) REFERENCES prendas (prd_id)
 );

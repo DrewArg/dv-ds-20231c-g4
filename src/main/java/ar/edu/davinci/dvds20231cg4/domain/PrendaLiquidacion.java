@@ -16,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @SuperBuilder
 public class PrendaLiquidacion extends Prenda implements EstadoPrendaStrategy, Serializable {
-    @Column(name = "porcentahe_descuento")
+    @Column(name = "prd_porcen_dto")
     private int porcentajeDescuento;
 
 

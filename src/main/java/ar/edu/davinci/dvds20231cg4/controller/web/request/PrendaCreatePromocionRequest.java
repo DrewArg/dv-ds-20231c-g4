@@ -6,14 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PrendaNuevaCreateRequest {
+public class PrendaCreatePromocionRequest {
     private String descripcion;
     private String tipo;
     private BigDecimal precioBase;
     private String estado;
+    private int valorDescuento;
 }

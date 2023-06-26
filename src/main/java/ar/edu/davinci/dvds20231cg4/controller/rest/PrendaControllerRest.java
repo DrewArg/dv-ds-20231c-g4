@@ -1,11 +1,20 @@
 package ar.edu.davinci.dvds20231cg4.controller.rest;
-import java.util.List;
-import java.util.Objects;
 
+import ar.edu.davinci.dvds20231cg4.controller.TiendaAppRest;
+import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertLiquidacionRequest;
 import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertNuevaRequest;
+import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertPromocionRequest;
+import ar.edu.davinci.dvds20231cg4.controller.response.PrendaLiquidacionResponse;
 import ar.edu.davinci.dvds20231cg4.controller.response.PrendaNuevaResponse;
+import ar.edu.davinci.dvds20231cg4.controller.response.PrendaPromocionResponse;
+import ar.edu.davinci.dvds20231cg4.controller.response.PrendaResponse;
+import ar.edu.davinci.dvds20231cg4.domain.Prenda;
+import ar.edu.davinci.dvds20231cg4.domain.PrendaLiquidacion;
 import ar.edu.davinci.dvds20231cg4.domain.PrendaNueva;
-import jakarta.validation.Valid;
+import ar.edu.davinci.dvds20231cg4.domain.PrendaPromocion;
+import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
+import ar.edu.davinci.dvds20231cg4.mapper.PrendaMapper;
+import ar.edu.davinci.dvds20231cg4.service.PrendaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,29 +23,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ar.edu.davinci.dvds20231cg4.controller.TiendaAppRest;
-import ar.edu.davinci.dvds20231cg4.controller.request.PrendaInsertRequest;
-import ar.edu.davinci.dvds20231cg4.controller.request.PrendaUpdateRequest;
-import ar.edu.davinci.dvds20231cg4.controller.response.PrendaResponse;
-import ar.edu.davinci.dvds20231cg4.domain.Prenda;
-import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
-import ar.edu.davinci.dvds20231cg4.mapper.PrendaMapper;
-import ar.edu.davinci.dvds20231cg4.service.PrendaService;
+
+import java.util.List;
+
 @RestController
-public class PrendaControllerRest extends TiendaAppRest{
+public class PrendaControllerRest extends TiendaAppRest {
     private final Logger LOGGER = LoggerFactory.getLogger(PrendaControllerRest.class);
     @Autowired
     private PrendaService prendaService;
     private final PrendaMapper prendaMapper = PrendaMapper.instance;
 
-/**
- * Listar Prendas
- */
-@GetMapping(path = "/prendas/all")
-public List<Prenda> getList(){
-    LOGGER.info("Listado de todas las prendas");
-    return prendaService.list();
-}
+    /**
+     * Listar Prendas
+     */
+    @GetMapping(path = "/prendas/all")
+    public List<Prenda> getList() {
+        LOGGER.info("Listado de todas las prendas");
+        return prendaService.list();
+    }
+
     @GetMapping(path = "/prendas")
     public ResponseEntity<Page<PrendaResponse>> getList(Pageable pageable) {
         LOGGER.info("Listar todas las prendas paginadas");
@@ -78,14 +83,18 @@ public List<Prenda> getList(){
         }
         return new ResponseEntity<>(prendaResponse, HttpStatus.OK);
     }
+
     private void showPrendaResonse(Page<PrendaResponse> prendaResponse) {
         System.out.println(prendaResponse.getContent().toString());
     }
+
     private void showPrendas(Page<Prenda> prendas) {
         System.out.println(prendas.getContent().toString());
     }
+
     /**
      * Buscar prenda por id
+     *
      * @param id identificador del prenda
      * @return retorna el prenda
      */
@@ -115,34 +124,76 @@ public List<Prenda> getList(){
         }
         return new ResponseEntity<>(prendaResponse, HttpStatus.OK);
     }
-/**
- * Grabar una nueva prenda
- *
- * @param datosPrenda son los datos para una nueva prenda
- * @return un prenda nueva
- */
-@PostMapping(path = "/prendas/nueva")
-public ResponseEntity<PrendaResponse> createPrenda(@RequestBody PrendaInsertNuevaRequest datosPrenda){
 
-    PrendaResponse prendaResponse = null;
-    PrendaNueva prendaNueva = prendaMapper.mapToPrendaNueva(datosPrenda);
-    return grabarPrenda(prendaNueva, prendaResponse);
-}
+    @PostMapping(path = "/prendas/liquidacion")
+    public ResponseEntity<PrendaLiquidacionResponse> createPrenda(@RequestBody PrendaInsertLiquidacionRequest datosPrenda) {
+        PrendaLiquidacionResponse prendaLiquidacionResponse = null;
+        PrendaLiquidacion prendaLiquidacion = prendaMapper.mapToPrendaLiquidacion(datosPrenda);
+        return grabarPrenda(prendaLiquidacion, prendaLiquidacionResponse);
+    }
 
-    private ResponseEntity<PrendaResponse> grabarPrenda(PrendaNueva prendaNueva, PrendaResponse prendaResponse){
-        try{
-            prendaNueva = prendaService.save(prendaNueva);
-        }catch (Exception e){
+    private ResponseEntity<PrendaLiquidacionResponse> grabarPrenda(PrendaLiquidacion prendaLiquidacion, PrendaLiquidacionResponse prendaLiquidacionResponse) {
+        try {
+            prendaLiquidacion = prendaService.save(prendaLiquidacion);
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
 
-        try{
-            prendaResponse = prendaMapper.mapToPrendaNuevaResponse(prendaNueva);
-        }catch (Exception e){
+        try {
+            prendaLiquidacionResponse = prendaMapper.mapToPrendaLiquidacionResponse(prendaLiquidacion);
+        } catch (Exception e) {
             LOGGER.error(e.getMessage());
             e.printStackTrace();
         }
-        return new ResponseEntity<>(prendaResponse,HttpStatus.CREATED);
+        return new ResponseEntity<>(prendaLiquidacionResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/prendas/nueva")
+    public ResponseEntity<PrendaNuevaResponse> createPrenda(@RequestBody PrendaInsertNuevaRequest datosPrenda) {
+
+        PrendaNuevaResponse prendaNuevaResponse = null;
+        PrendaNueva prendaNueva = prendaMapper.mapToPrendaNueva(datosPrenda);
+        return grabarPrenda(prendaNueva, prendaNuevaResponse);
+    }
+
+    private ResponseEntity<PrendaNuevaResponse> grabarPrenda(PrendaNueva prendaNueva, PrendaNuevaResponse prendaNuevaResponse) {
+        try {
+            prendaNueva = prendaService.save(prendaNueva);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+
+        try {
+            prendaNuevaResponse = prendaMapper.mapToPrendaNuevaResponse(prendaNueva);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(prendaNuevaResponse, HttpStatus.CREATED);
+    }
+
+    @PostMapping(path = "/prendas/promocion")
+    public ResponseEntity<PrendaPromocionResponse> createPrenda(@RequestBody PrendaInsertPromocionRequest datosPrenda) {
+
+        PrendaPromocionResponse prendaPromocionResponse = null;
+        PrendaPromocion prendaPromocion = prendaMapper.mapToPrendaPromocion(datosPrenda);
+        return grabarPrenda(prendaPromocion, prendaPromocionResponse);
+    }
+
+    private ResponseEntity<PrendaPromocionResponse> grabarPrenda(PrendaPromocion prendaPromocion, PrendaPromocionResponse prendaPromocionResponse) {
+        try {
+            prendaPromocion = prendaService.save(prendaPromocion);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
+
+        try {
+            prendaPromocionResponse = prendaMapper.mapToPrendaPromocionResponse(prendaPromocion);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(prendaPromocionResponse, HttpStatus.CREATED);
     }
 
 //    @PostMapping(path = "/prendas/new")
@@ -240,8 +291,10 @@ public ResponseEntity<PrendaResponse> createPrenda(@RequestBody PrendaInsertNuev
 //        }
 //        return new ResponseEntity<>(prendaResponse, HttpStatus.CREATED);
 //    }
+
     /**
      * Borrado de la prenda
+     *
      * @param id identificador de una prenda
      * @return
      */

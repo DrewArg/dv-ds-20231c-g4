@@ -54,13 +54,6 @@ public class PrendaServiceImplementation implements PrendaService {
     public PrendaNueva save(PrendaNueva prendaNueva) throws BusinessException {
         LOGGER.debug("guardando la prenda: " + prendaNueva.toString());
         if (prendaNueva.getId() == null) {
-            LOGGER.debug(prendaNueva.getDescripcion());
-            LOGGER.debug(prendaNueva.getTipo().toString());
-
-            LOGGER.debug(prendaNueva.getPrecioBase().toString());
-
-//            LOGGER.debug(prendaNueva.getEstadoPrenda().toString());
-
             prendaNueva = PrendaNueva.builder()
                     .descripcion(prendaNueva.getDescripcion())
                     .tipo(prendaNueva.getTipo())
@@ -81,6 +74,12 @@ public class PrendaServiceImplementation implements PrendaService {
     public PrendaPromocion save(PrendaPromocion prendaPromocion) throws BusinessException {
         LOGGER.debug("guardando la prenda: " + prendaPromocion.toString());
         if (prendaPromocion.getId() == null) {
+            prendaPromocion = PrendaPromocion.builder()
+                    .descripcion(prendaPromocion.getDescripcion())
+                    .tipo(prendaPromocion.getTipo())
+                    .precioBase(prendaPromocion.getPrecioBase())
+                    .valorDescuento(prendaPromocion.getValorDescuento())
+                    .build();
             return prendaPromocionRepository.save(prendaPromocion);
         }
         throw new BusinessException("no se puede guardar una prenda con un ID específico");
@@ -94,7 +93,13 @@ public class PrendaServiceImplementation implements PrendaService {
     @Override
     public PrendaLiquidacion save(PrendaLiquidacion prendaLiquidacion) throws BusinessException {
         LOGGER.debug("guardando la prenda: " + prendaLiquidacion.toString());
-        if (prendaLiquidacion == null) {
+        if (prendaLiquidacion.getId() == null) {
+            prendaLiquidacion = PrendaLiquidacion.builder()
+                    .descripcion(prendaLiquidacion.getDescripcion())
+                    .tipo(prendaLiquidacion.getTipo())
+                    .precioBase(prendaLiquidacion.getPrecioBase())
+                    .porcentajeDescuento(prendaLiquidacion.getPorcentajeDescuento())
+                    .build();
             return prendaLiquidacionRepository.save(prendaLiquidacion);
         }
         throw new BusinessException("no se puede guardar una prenda con un ID específico");

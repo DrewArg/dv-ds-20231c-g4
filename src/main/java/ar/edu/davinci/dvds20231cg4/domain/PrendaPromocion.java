@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @SuperBuilder
 public class PrendaPromocion extends Prenda implements EstadoPrendaStrategy, Serializable {
-	@Column(name = "valor_descuento")
+	@Column(name = "prd_val_dto")
 	private int valorDescuento;
 
 

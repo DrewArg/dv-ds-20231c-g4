@@ -34,7 +34,7 @@ public class VentaTarjetaMapperTest {
                 .build();
         
         LOGGER.info("VentaTarjetaInsertRequest: " + ventaInsertRequest.toString());
-        VentaTarjeta venta = mapper.matToVentaTarjeta(ventaInsertRequest);
+        VentaTarjeta venta = mapper.mapToVentaTarjeta(ventaInsertRequest);
         LOGGER.info("Prenda: " + venta.toString());
     }
 

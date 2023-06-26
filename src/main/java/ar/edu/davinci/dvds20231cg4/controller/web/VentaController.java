@@ -110,7 +110,7 @@ public class VentaController extends TiendaApp{
 
         LOGGER.info("POST - saveVenta - /ventas/efectivo/save");
         LOGGER.info("datosVenta: " + datosVenta.toString());
-        VentaEfectivo venta = ventaMapper.matToVentaEfectivo(datosVenta);
+        VentaEfectivo venta = ventaMapper.mapToVentaEfectivo(datosVenta);
 //VentaEfectivo venta = mapper.map(datosVenta, VentaEfectivo.class);
 // Grabar el nuevo Venta
         try {
@@ -126,7 +126,7 @@ public class VentaController extends TiendaApp{
 
         LOGGER.info("POST - saveVenta - /ventas/tarjeta/save");
         LOGGER.info("venta: " + datosVenta.toString());
-        VentaTarjeta venta = ventaMapper.matToVentaTarjeta(datosVenta);
+        VentaTarjeta venta = ventaMapper.mapToVentaTarjeta(datosVenta);
 //VentaTarjeta venta = mapper.map(datosVenta, VentaTarjeta.class);
         // Grabar el nuevo Venta
         try {
@@ -156,12 +156,14 @@ public class VentaController extends TiendaApp{
 
         LOGGER.info("POST - saveVentaItem - ventas/pedidoVentaItem/save");
         LOGGER.info("datosVentaItem: " + datosVentaItem.toString());
-        PedidoVentaItem pedidoVentaItem = itemMapper.matToItem(datosVentaItem);
+        //TODO uncomment next line and make it work
+//        PedidoVentaItem pedidoVentaItem = itemMapper.mapToItem(datosVentaItem);
 //PedidoVentaItem pedidoVentaItem = mapper.map(datosVentaItem, PedidoVentaItem.class);
 // Grabar el nuevo Venta
         Venta venta = null;
         try {
-            venta = ventaService.addItem(datosVentaItem.getVentaId(), pedidoVentaItem);
+            //TODO uncomment next line and make it work
+//            venta = ventaService.addItem(datosVentaItem.getVentaId(), pedidoVentaItem);
         } catch (Exception e) {
             e.printStackTrace();
         }

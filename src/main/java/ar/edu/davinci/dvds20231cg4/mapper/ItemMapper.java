@@ -17,15 +17,16 @@ public interface ItemMapper {
     @Mapping(target = "importe", expression = "java(new java.math.BigDecimal(pedidoVentaItem.importe().doubleValue()))")
     @Mapping(target = "prenda", source = "prenda")
     ItemResponse mapToItemResponse(PedidoVentaItem pedidoVentaItem);
-    @Mapping(target = "prenda.id", source = "prendaId")
-    PedidoVentaItem matToItem(ItemInsertRequest itemDto);
+//TODO UNCOMMENT THE FOLLOWING AND MAKE IT WORK
+    //    @Mapping(target = "prenda", source = "prendaId")
+//    PedidoVentaItem mapToItem(ItemInsertRequest itemDto);
 
-    PedidoVentaItem matToItem(ItemUpdateRequest itemDto);
+    PedidoVentaItem mapToItem(ItemUpdateRequest itemDto);
 
     @Mapping(target = "importe", expression = "java(new java.math.BigDecimal(item.importe().doubleValue()))")
     @Mapping(target = "prenda", source = "prenda")
     List<ItemResponse> mapToItemRespons(Collection<PedidoVentaItem> itmens);
-
-    @Mapping(target = "prenda.id", source = "prendaId")
-    PedidoVentaItem matToItem(VentaItemCreateRequest ventaItemCreateRequest);
+    //TODO UNCOMMENT THE FOLLOWING AND MAKE IT WORK
+//    @Mapping(target = "prenda.id", source = "prendaId")
+//    PedidoVentaItem mapToItem(VentaItemCreateRequest ventaItemCreateRequest);
 }

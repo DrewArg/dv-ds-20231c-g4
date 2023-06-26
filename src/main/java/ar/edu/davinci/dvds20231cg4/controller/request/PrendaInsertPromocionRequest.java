@@ -1,20 +1,20 @@
-package ar.edu.davinci.dvds20231cg4.controller.response;
-import java.math.BigDecimal;
+package ar.edu.davinci.dvds20231cg4.controller.request;
 
-import ar.edu.davinci.dvds20231cg4.domain.EstadoPrenda;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PrendaResponse {
-    private Long id;
+public class PrendaInsertPromocionRequest {
     private String descripcion;
     private String tipo;
     private BigDecimal precioBase;
-    private EstadoPrenda estado;
+    private String estado;
+    private int valorDescuento;
 }

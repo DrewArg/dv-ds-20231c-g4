@@ -1,28 +1,23 @@
 package ar.edu.davinci.dvds20231cg4.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import jakarta.persistence.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-// Configuración inical de JPA de una entidad
 @Entity
-//@Table(name="prendas")
-//// Configuración de Lombok
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Data
-//@Builder
+@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name="prd_estado_prenda")
+@Table(name="prendas")
+//Configuración de lombok
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@SuperBuilder
 public abstract class Prenda implements Serializable {
     /**
      *
@@ -43,9 +38,7 @@ public abstract class Prenda implements Serializable {
     private TipoPrenda tipo;
     @Column(name = "prd_precio_base")
     private BigDecimal precioBase;
-    @Column(name="prd_estado_prenda")
-    @Enumerated(EnumType.STRING)
-    private EstadoPrenda estadoPrenda;
+
     public BigDecimal getPrecioFinal() {
        return precioBase;
    }

@@ -1,21 +1,39 @@
 package ar.edu.davinci.dvds20231cg4.service;
-import java.util.List;
+
+import ar.edu.davinci.dvds20231cg4.domain.*;
+import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import ar.edu.davinci.dvds20231cg4.domain.Prenda;
-import ar.edu.davinci.dvds20231cg4.domain.TipoPrenda;
-import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.List;
+
+
 public interface PrendaService {
-    Prenda save(final Prenda prenda) throws BusinessException;
-    Prenda update(final Prenda prenda) throws BusinessException;
-    void delete(final Prenda prenda);
+
+    PrendaNueva save(PrendaNueva prendaNueva) throws BusinessException;
+
+    PrendaPromocion save(PrendaPromocion prendaPromocion) throws BusinessException;
+
+    PrendaLiquidacion save(PrendaLiquidacion prendaLiquidacion) throws BusinessException;
+//
+//    Prenda save(final Prenda prenda) throws BusinessException;
+//
+//    Prenda update(final Prenda prenda) throws BusinessException;
+
+    void delete(Prenda prenda);
+
     void delete(final Long id);
+
     Prenda findById(final Long id) throws BusinessException;
+
     List<Prenda> list();
+
     Page<Prenda> list(Pageable pageable);
+
     long count();
+
     List<TipoPrenda> getTipoPrendas();
+
+    List<EstadoPrenda> getEstadoPrendas();
 }

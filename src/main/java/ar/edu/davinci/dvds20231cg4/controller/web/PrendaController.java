@@ -43,22 +43,22 @@ public class PrendaController extends TiendaApp{
 //        LOGGER.info("prendas: " + prenda.toString());
 //        return "prendas/new_prendas";
 //    }
-    @PostMapping(value = "/prendas/new")
-    public String savePrenda(@ModelAttribute("prenda") Prenda prenda) {
-        LOGGER.info("POST - savePrenda - /prendas/new");
-        LOGGER.info("prenda: " + prenda.toString());
-        try {
-            if (prenda.getId() == null) {
-                prendaService.save(prenda);
-            } else {
-                prendaService.update(prenda);
-            }
-        } catch (BusinessException e) {
-// TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return "redirect:/tienda/prendas/list";
-    }
+//    @PostMapping(value = "/prendas/new")
+//    public String savePrenda(@ModelAttribute("prenda") Prenda prenda) {
+//        LOGGER.info("POST - savePrenda - /prendas/new");
+//        LOGGER.info("prenda: " + prenda.toString());
+//        try {
+//            if (prenda.getId() == null) {
+//                prendaService.save(prenda);
+//            } else {
+//                prendaService.update(prenda);
+//            }
+//        } catch (BusinessException e) {
+//// TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        return "redirect:/tienda/prendas/list";
+//    }
     @RequestMapping(value = "/prendas/edit/{id}", method = RequestMethod.GET)
     public ModelAndView showEditPrendaPage(@PathVariable(name = "id") Long prendaId) {
         LOGGER.info("GET - showEditPrendaPage - /prendas/edit/{id}");

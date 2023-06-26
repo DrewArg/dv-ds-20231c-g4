@@ -25,6 +25,10 @@ DROP TABLE IF EXISTS clientes;
 --
 -- Table structure for table clientes
 --
+DROP TABLE IF EXISTS prendas_nueva;
+--
+-- Table structure for prendas_nueva;
+--
 CREATE TABLE clientes (
                           cli_id bigint NOT NULL AUTO_INCREMENT,
                           cli_apellido varchar(255) DEFAULT NULL,
@@ -85,4 +89,10 @@ CREATE TABLE ventas_tarjeta (
                                 vtt_coeficiente decimal(2,2) DEFAULT NULL,
                                 PRIMARY KEY (vta_id),
                                 CONSTRAINT vtt_vta_fk FOREIGN KEY (vta_id) REFERENCES ventas (vta_id)
+);
+
+CREATE TABLE prendas_nueva(
+                              prd_id bigint NOT NULL AUTO_INCREMENT,
+                              PRIMARY KEY (prd_id),
+                              CONSTRAINT prd_pnu_fk FOREIGN KEY (prd_id) REFERENCES prendas (prd_id)
 );

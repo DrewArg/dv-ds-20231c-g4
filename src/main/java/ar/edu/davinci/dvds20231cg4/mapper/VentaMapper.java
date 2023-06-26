@@ -14,25 +14,25 @@ import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
 public interface VentaMapper {
     VentaMapper instance = Mappers.getMapper(VentaMapper.class);
 
-// VENTA EFECTIVO
+ //VENTA EFECTIVO
 @Mapping(target = "cliente", source = "cliente")
-@Mapping(target = "pedidoVentaItems", source = "pedidoVentaItems")
+@Mapping(target = "items", source = "pedidoVentaItems")
 //@Mapping(target = "importeFinal", expression = "java(new java.math.BigDecimal(ventaEfectivo.importeFinal().doubleValue()))")
     VentaEfectivoResponse mapToVentaEfectivoResponse(VentaEfectivo ventaEfectivo);
     @Mapping(target = "cliente.id", source = "clienteId")
-    VentaEfectivo matToVentaEfectivo(VentaEfectivoRequest ventaEfectivoRequest);
+    VentaEfectivo mapToVentaEfectivo(VentaEfectivoRequest ventaEfectivoRequest);
     @Mapping(target = "cliente.id", source = "clienteId")
-    VentaEfectivo matToVentaEfectivo(VentaEfectivoCreateRequest
+    VentaEfectivo mapToVentaEfectivo(VentaEfectivoCreateRequest
                                              ventaEfectivoCreateRequest);
 
 // VENTA TARJETA
 @Mapping(target = "cliente", source = "cliente")
-@Mapping(target = "pedidoVentaItems", source = "pedidoVentaItems")
+@Mapping(target = "items", source = "pedidoVentaItems")
 //@Mapping(target = "importeFinal", expression = "java(new java.math.BigDecimal(ventaTarjeta.importeFinal().doubleValue()))")
     VentaTarjetaResponse mapToVentaTarjetaResponse(VentaTarjeta ventaTarjeta);
     @Mapping(target = "cliente.id", source = "clienteId")
-    VentaTarjeta matToVentaTarjeta(VentaTarjetaRequest ventaTarjetaRequest);
+    VentaTarjeta mapToVentaTarjeta(VentaTarjetaRequest ventaTarjetaRequest);
     @Mapping(target = "cliente.id", source = "clienteId")
     @Mapping(target = "fecha", source = "fecha")
-    VentaTarjeta matToVentaTarjeta(VentaTarjetaCreateRequest ventaTarjetaCreateRequest);
+    VentaTarjeta mapToVentaTarjeta(VentaTarjetaCreateRequest ventaTarjetaCreateRequest);
 }

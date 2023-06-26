@@ -5,7 +5,7 @@ public class PedidoVentaItemTest {
     @Test
     void testBuilder(){
         Long id = 1L;
-        Venta ventaTarjeta = ;
+//        Venta ventaTarjeta = ;
         Integer cantidad = 3;
 //        Prenda prenda = new Prenda("PedidoVentaItem prueba",TipoPrenda.CHAQUETA,1590.50);
 //        PedidoVentaItem pedidoVentaItem = PedidoVentaItem.builder()

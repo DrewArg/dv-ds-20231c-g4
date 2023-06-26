@@ -8,6 +8,9 @@ import ar.edu.davinci.dvds20231cg4.domain.Venta;
 import ar.edu.davinci.dvds20231cg4.domain.VentaEfectivo;
 import ar.edu.davinci.dvds20231cg4.domain.VentaTarjeta;
 import ar.edu.davinci.dvds20231cg4.exceptions.BusinessException;
+import org.springframework.stereotype.Service;
+
+
 public interface VentaService {
     // Métodos de creación de una venta en Efectivo
     VentaEfectivo save(VentaEfectivo venta) throws BusinessException;

@@ -1,24 +1,27 @@
 package ar.edu.davinci.dvds20231cg4.domain;
 
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Table(name="prendas")
+import java.io.Serializable;
+
 // Configuración de Lombok
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@PrimaryKeyJoinColumn(name = "prd_id")
+@DiscriminatorValue("LIQUIDACION")
+@Table(name = "prendas_liquidacion")
 @Data
-@Builder
-public class PrendaLiquidacion extends Prenda implements EstadoPrendaStrategy {
+@NoArgsConstructor
+@SuperBuilder
+public class PrendaLiquidacion extends Prenda implements EstadoPrendaStrategy, Serializable {
+    @Column(name = "porcentahe_descuento")
+    private int porcentajeDescuento;
 
-	private int porcentajeDescuento;
 
-
-	@Override
-	public Double calcularPrecioVenta() {
-		return null;
-	}
+    @Override
+    public Double calcularPrecioVenta() {
+        return null;
+    }
 }

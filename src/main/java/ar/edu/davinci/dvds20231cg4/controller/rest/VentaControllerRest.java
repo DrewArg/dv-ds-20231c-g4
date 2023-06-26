@@ -118,7 +118,7 @@ public class VentaControllerRest extends TiendaAppRest {
                                                              datosVenta) {
 
         VentaResponse ventaResponse = null;
-        VentaEfectivo venta = ventaMapper.matToVentaEfectivo(datosVenta);
+        VentaEfectivo venta = ventaMapper.mapToVentaEfectivo(datosVenta);
 //VentaEfectivo venta = mapper.map(datosVenta, VentaEfectivo.class);
         return grabarVenta(venta, ventaResponse);
     }
@@ -134,7 +134,7 @@ public class VentaControllerRest extends TiendaAppRest {
 
         VentaResponse ventaResponse = null;
 
-        VentaTarjeta venta = ventaMapper.matToVentaTarjeta(datosVenta);
+        VentaTarjeta venta = ventaMapper.mapToVentaTarjeta(datosVenta);
 //VentaTarjeta venta = mapper.map(datosVenta, VentaTarjeta.class);
         return grabarVenta(venta, ventaResponse);
     }
@@ -203,7 +203,8 @@ public class VentaControllerRest extends TiendaAppRest {
         VentaResponse ventaResponse = null;
         PedidoVentaItem pedidoVentaItem = null;
         try {
-            pedidoVentaItem = itemMapper.matToItem(datosItem);
+            //TODO uncomment next line and make it work
+//            pedidoVentaItem = itemMapper.mapToItem(datosItem);
 //pedidoVentaItem = mapper.map(datosItem, PedidoVentaItem.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
@@ -254,7 +255,7 @@ public class VentaControllerRest extends TiendaAppRest {
         VentaResponse ventaResponse = null;
         PedidoVentaItem pedidoVentaItem = null;
         try {
-            pedidoVentaItem = itemMapper.matToItem(datosItem);
+            pedidoVentaItem = itemMapper.mapToItem(datosItem);
 //pedidoVentaItem = mapper.map(datosItem, PedidoVentaItem.class);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());

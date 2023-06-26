@@ -1,18 +1,24 @@
 package ar.edu.davinci.dvds20231cg4.domain;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@Table(name="prendas")
-// Configuración de Lombok
+import java.io.Serializable;
+
+@Entity
+@PrimaryKeyJoinColumn(name = "prd_id")
+@DiscriminatorValue("NUEVA")
+@Table(name = "prendas_nueva")
 @NoArgsConstructor
-@AllArgsConstructor
-@Data
-@Builder
-public class PrendaNueva extends Prenda implements EstadoPrendaStrategy {
+@SuperBuilder
+public class PrendaNueva extends Prenda implements EstadoPrendaStrategy, Serializable {
 
 
     @Override
